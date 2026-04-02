@@ -1,0 +1,79 @@
+package spring_group1.com.exception;
+
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+
+import java.time.Instant;
+
+
+@RestControllerAdvice
+
+public class GlobalException {
+
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ProblemDetail handleParameterValidation(HandlerMethodValidationException ex) {
+
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        detail.setTitle("Invalid Parameter");
+        detail.setDetail("Parameter validation failed (e.g. id must be > 0)");
+        detail.setProperty("timestamp", Instant.now());
+
+        return detail;
+    }
+
+
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ProblemDetail handleDuplicateEmail(DuplicateEmailException ex) {
+
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        detail.setTitle("Duplicate Email");
+        detail.setDetail(ex.getMessage());
+        detail.setProperty("timestamp", Instant.now());
+
+        return detail;
+    }
+
+
+
+    @ExceptionHandler(DuplicateName.class)
+    public ProblemDetail handleDuplicateName(DuplicateName ex) {
+
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        detail.setTitle("Duplicate Name");
+        detail.setDetail(ex.getMessage());
+        detail.setProperty("timestamp", Instant.now());
+
+        return detail;
+    }
+
+
+    @ExceptionHandler(NotFoundExceptionHandler.class)
+    public ProblemDetail handleNotFound(NotFoundExceptionHandler ex) {
+
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        detail.setTitle("ID not Found");
+        detail.setDetail(ex.getMessage());
+        detail.setProperty("timestamp", Instant.now());
+
+        return detail;
+    }
+
+
+
+    @ExceptionHandler(GreaterException.class)
+    public ProblemDetail greaterThan(GreaterException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setProperty("timestamp" , Instant.now());
+//        problemDetail.setProperties("message", ex.getMessage());
+        return  problemDetail;
+    }
+
+
+}
