@@ -12,4 +12,11 @@ public class achievements {
     private String description;
     private Integer xp;
     private String bagde;
+    private
+
+
+
+
+
+
 }
