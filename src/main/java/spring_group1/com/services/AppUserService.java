@@ -1,4 +1,4 @@
-package spring_group1.com.service;
+package spring_group1.com.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import spring_group1.com.model.AppUser;

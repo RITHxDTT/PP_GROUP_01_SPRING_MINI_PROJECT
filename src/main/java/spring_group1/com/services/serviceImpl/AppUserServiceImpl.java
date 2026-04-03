@@ -1,4 +1,4 @@
-package spring_group1.com.service.serviceImpl;
+package spring_group1.com.services.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,7 @@ import spring_group1.com.exception.EmailNotFound;
 import spring_group1.com.model.AppUser;
 import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.request.AppUserRequest;
-import spring_group1.com.service.AppUserService;
+import spring_group1.com.services.AppUserService;
 
 import java.time.LocalDateTime;
 
