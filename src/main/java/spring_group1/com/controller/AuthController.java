@@ -28,7 +28,6 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
-
     @PostMapping("/login")
     public ResponseEntity<ApiRespone> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
 
@@ -41,6 +40,7 @@ public class AuthController {
         String token =jwtUtils.generateToken(loginRequest.getEmail());
 
         ApiRespone apiRespone = ApiRespone.builder()
+                .success(true)
                 .message("login sucess ")
                 .status(HttpStatus.OK)
                 .payload(token).build();
@@ -58,6 +58,7 @@ public class AuthController {
         AppUser appUser = appUserService.createAppUser(appUserRequest);
 
         ApiRespone<Object> response = ApiRespone.builder()
+                .success(true)
                 .status(HttpStatus.OK)
                 .message("Success register ! ")
                 .timestamp(LocalDate.now())
