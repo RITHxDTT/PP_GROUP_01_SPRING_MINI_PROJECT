@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class achievements {
+public class Achievements {
+    private Integer achievementId;
     private String title;
     private String description;
-    private Integer xp;
-    private String bagde;
-    private
+
+    private String badge;
+    private Integer xpRequired;
+
 
 
 
