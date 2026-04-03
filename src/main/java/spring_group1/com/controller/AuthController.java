@@ -54,7 +54,7 @@ public class AuthController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody AppUserRequest appUserRequest) {
+    public ResponseEntity<Object> registerg(@Valid @RequestBody AppUserRequest appUserRequest) {
         AppUser appUser = appUserService.createAppUser(appUserRequest);
 
         ApiRespone<Object> response = ApiRespone.builder()
