@@ -11,5 +11,5 @@ public class achievements {
     private String title;
     private String description;
     private Integer xp;
-    private String bage;
+    private String bagde;
 }
