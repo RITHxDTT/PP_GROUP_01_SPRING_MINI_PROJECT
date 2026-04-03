@@ -23,7 +23,7 @@ import spring_group1.com.services.AppUserService;
 @Data
 @AllArgsConstructor
 @Configuration
-public class gSecurityConfig {
+public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
     private final JwtAuthFilter jwtAuthFilter;
