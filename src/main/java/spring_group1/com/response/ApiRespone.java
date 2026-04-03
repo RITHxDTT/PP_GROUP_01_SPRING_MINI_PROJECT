@@ -18,5 +18,6 @@ public class ApiRespone <T> {
     private String message;
     private HttpStatus status;
     private LocalDate timestamp;
+    private Boolean success;
     private T payload;
 }
