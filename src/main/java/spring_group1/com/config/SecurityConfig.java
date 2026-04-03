@@ -2,7 +2,6 @@ package spring_group1.com.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,14 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import spring_group1.com.jwt.JwtAuthEntryPoint;
 import spring_group1.com.jwt.JwtAuthFilter;
 
-import spring_group1.com.service.AppUserService;
-
-import javax.swing.*;
+import spring_group1.com.services.AppUserService;
 
 @Data
 @AllArgsConstructor
 @Configuration
-public class SecurityConfig {
+public class gSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
     private final JwtAuthFilter jwtAuthFilter;

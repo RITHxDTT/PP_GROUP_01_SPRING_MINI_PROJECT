@@ -13,7 +13,7 @@ import spring_group1.com.model.AppUser;
 import spring_group1.com.request.AppUserRequest;
 import spring_group1.com.request.LoginRequest;
 import spring_group1.com.response.ApiRespone;
-import spring_group1.com.service.AppUserService;
+import spring_group1.com.services.AppUserService;
 
 import java.time.LocalDate;
 
