@@ -59,6 +59,7 @@ public interface AppUserRepository {
             UPDATE app_users 
             SET username = #{userName}, profile_image = #{profileImg}
             WHERE email = #{email}
+            RETURNING *;
             """)
     void updateProfile(AppUser user);
 }

@@ -29,10 +29,10 @@ public class ProfileController {
 
         ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
                 .success(true)
-                .message("Profile fetched successfully")
+                .message("get profile successfully")
                 .status(HttpStatus.OK)
                 .payload(profile)
-                .timestamp(LocalDate.from(LocalDateTime.now()))
+                .timestamp(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.ok(response);
@@ -45,10 +45,10 @@ public class ProfileController {
 
         ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
                 .success(true)
-                .message("Profile deleted successfully")
+                .message("deleted successfully")
                 .status(HttpStatus.OK)
                 .payload(null)
-                .timestamp(LocalDate.from(LocalDateTime.now()))
+                .timestamp(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.ok(response);
@@ -61,10 +61,10 @@ public class ProfileController {
 
         ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
                 .success(true)
-                .message("Profile updated successfully")
+                .message("updated successfully")
                 .status(HttpStatus.OK)
                 .payload(profileResponse)
-                .timestamp(LocalDate.from(LocalDateTime.now()))
+                .timestamp(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.ok(response);

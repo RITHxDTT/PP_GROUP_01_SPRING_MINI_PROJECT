@@ -15,6 +15,7 @@ import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.AppUserService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/auths")
@@ -41,7 +42,7 @@ public class AuthController {
                 .success(true)
                 .message("login sucess ")
                 .status(HttpStatus.OK)
-                .timestamp(LocalDate.now())
+                .timestamp(LocalDateTime.now())
                 .payload(token).build();
 
         return ResponseEntity.ok(apiRespone);
@@ -56,9 +57,9 @@ public class AuthController {
 
         ApiRespone<Object> response = ApiRespone.builder()
                 .success(true)
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .message("Success register ! ")
-                .timestamp(LocalDate.now())
+                .timestamp(LocalDateTime.now())
                 .payload(appUser)
                 .build();
 

@@ -48,6 +48,7 @@ public class AppUserServiceImpls implements AppUserService {
         appUser.setTimestamp(LocalDateTime.now());
         appUser.getLevel();
         appUser.getXp();
+//        appUser.getCreatedAt();
         appUserRepository.createAppUser(appUser);
 
 
@@ -101,17 +102,26 @@ public class AppUserServiceImpls implements AppUserService {
 
     }
 
+
     @Override
-    public  ProfileResponse updateProfile(String email,  ProfileRequest profileRequest) {
+    public ProfileResponse updateProfile(String email, ProfileRequest profileRequest) {
         AppUser user = appUserRepository.findUserByEmail(email);
         if (user == null) {
             throw new EmailNotFound("User not found");
         }
+        if (profileRequest.getUsername() != null && !profileRequest.getUsername().trim().isEmpty()) {
+            AppUser existingUser = appUserRepository.findUserByUsername(profileRequest.getUsername());
+            if (existingUser != null && existingUser.getUserId() != user.getUserId()) {
+                throw new DuplicateName("Username ng mean hx");
+            }
+            user.setUserName(profileRequest.getUsername());
+        }
+        if (profileRequest.getProfileImageUrl() != null && !profileRequest.getProfileImageUrl().trim().isEmpty()) {
+            user.setProfileImg(profileRequest.getProfileImageUrl());
+        }
         appUserRepository.updateProfile(user);
-
         return mapToProfileResponse(user);
     }
-
     private  ProfileResponse mapToProfileResponse(AppUser user) {
         return ProfileResponse.builder()
                 .appUserId(String.valueOf(user.getUserId()))

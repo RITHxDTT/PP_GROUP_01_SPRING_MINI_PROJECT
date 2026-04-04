@@ -51,7 +51,6 @@ public class JwtUtils {
 
     public String extractEmail(String token) {
         String email = extractClaim(token, Claims::getSubject);
-        System.out.println("ExtractEmail from token: " + email); // Debug
         return email;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,11 +24,10 @@ public class AppUser implements UserDetails {
     private int level;
     private String email;
     private String password;
-
-
     private String profileImg;
     private Boolean isVerified;
     private LocalDateTime timestamp;
+    private LocalDateTime createdAt;
 
 
     @Override
