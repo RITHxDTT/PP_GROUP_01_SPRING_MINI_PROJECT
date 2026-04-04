@@ -103,7 +103,6 @@ public class GlobalException {
         problemDetail.setProperty("errors", errors);
         problemDetail.setProperty("timestamp" , Instant.now());
 
-
         return problemDetail;
     }
 
