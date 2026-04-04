@@ -1,7 +1,6 @@
 package spring_group1.com.repository;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.http.ResponseEntity;
 import spring_group1.com.model.Habit;
 
@@ -11,6 +10,17 @@ import java.util.List;
 public interface HabitRepository {
 
 
-    @Select("SELECT * FROM habit")
-    ResponseEntity<List<Habit>> findAllHabit(Integer page, Integer size);
+    @Results(id = "habitMapper", value = {
+            @Result(property = "habitId", column = "habit_id"),
+            @Result(property = "isActive", column = "is_active"),
+            @Result(property = "appUserResponse", column = "app_user_id",
+                one = @One(select = "spring_group1.com.repository.AppUserRepositoryspring_group1.com.repository.AppUserRepository.getAllRolesByUserId")
+            )
+    })
+    @Select("""
+    SELECT * FROM habits
+    LIMIT #{size}
+    OFFSET(#{page}-1) * #{size}
+    """)
+    List<Habit> findAllHabit(Integer page, Integer size);
 }

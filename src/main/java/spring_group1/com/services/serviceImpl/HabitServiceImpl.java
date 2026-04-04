@@ -16,7 +16,7 @@ public class HabitServiceImpl implements HabitService {
     private final HabitRepository habitRepository;
 
     @Override
-    public ResponseEntity<List<Habit>> getAllHabit(Integer page, Integer size) {
+    public List<Habit> getAllHabit(Integer page, Integer size) {
         return habitRepository.findAllHabit(page, size);
     }
 }

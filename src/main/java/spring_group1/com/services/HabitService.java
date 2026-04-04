@@ -8,5 +8,5 @@ import java.util.List;
 public interface HabitService {
 
 
-    ResponseEntity<List<Habit>> getAllHabit(Integer page, Integer size);
+    List<Habit> getAllHabit(Integer page, Integer size);
 }
