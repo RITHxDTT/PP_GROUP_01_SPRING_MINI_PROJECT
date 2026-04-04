@@ -45,7 +45,6 @@ public class HabitServiceImpl implements HabitService {
         // check dup
         List<Habit> habits = habitRepository.getAllHabit();
         for (Habit hab : habits) {
-            // Only check duplicates for the CURRENT user
             if (hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
                 throw new DuplicateName("You already have a habit named: " + habitRequest.getTitle());
             }
