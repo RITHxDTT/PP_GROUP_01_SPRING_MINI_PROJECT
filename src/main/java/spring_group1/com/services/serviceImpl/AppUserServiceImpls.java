@@ -11,6 +11,9 @@ import spring_group1.com.model.AppUser;
 import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.request.AppUserRequest;
 import spring_group1.com.services.AppUserService;
+import spring_group1.com.services.EmailService;
+import spring_group1.com.services.OtpService;
+import spring_group1.com.utils.OtpUtil;
 
 import java.time.LocalDateTime;
 
@@ -20,19 +23,22 @@ public class AppUserServiceImpls implements AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final OtpService otpService;
+    private final EmailService emailService;
+
     @Override
     public AppUser createAppUser(AppUserRequest appUserRequest) {
 
         AppUser findByemail = appUserRepository.findUserByEmail(appUserRequest.getEmail());
-        if(findByemail != null){
-            throw new DuplicateEmailException("That Email Already exist! ");
+        if (findByemail != null) {
+            throw new DuplicateEmailException("Email already exists!");
         }
 
         AppUser findByname = appUserRepository.findUserByUsername(appUserRequest.getUserName());
-        if(findByname != null){
-            throw new DuplicateEmailException("That Username Already exist! ");
+        if (findByname != null) {
+            throw new DuplicateEmailException("Username already exists!");
         }
-
 
         String hasPassword = passwordEncoder.encode(appUserRequest.getPassword());
 
@@ -41,13 +47,17 @@ public class AppUserServiceImpls implements AppUserService {
         appUser.setProfileImg(appUserRequest.getProfileImg());
         appUser.setEmail(appUserRequest.getEmail());
         appUser.setPassword(hasPassword);
-        appUser.setIsVerified(true);
+
+        appUser.setIsVerified(false);
         appUser.setTimestamp(LocalDateTime.now());
-        appUser.getLevel();
-        appUser.getXp();
         appUserRepository.createAppUser(appUser);
 
+        //OTP logic
+        String otp = OtpUtil.generateOtp();
+        otpService.saveOtp(appUser.getEmail(), otp);
+        otpService.setCooldown(appUser.getEmail());
 
+        emailService.sendOtp(appUser.getEmail(), otp);
 
         return appUser;
     }
@@ -62,7 +72,10 @@ public class AppUserServiceImpls implements AppUserService {
          throw new EmailNotFound("Email not found");
         }
 
-        assert appUser != null;
+        if(!appUser.getIsVerified()) {
+            throw new RuntimeException("User is not verified");
+        }
+
 
         return appUser;
     }

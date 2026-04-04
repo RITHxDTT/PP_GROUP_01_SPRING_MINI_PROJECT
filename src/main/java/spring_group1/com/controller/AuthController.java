@@ -15,6 +15,7 @@ import spring_group1.com.request.LoginRequest;
 import spring_group1.com.response.ApiRespone;
 import spring_group1.com.services.AppUserService;
 import spring_group1.com.services.AppUserService;
+import spring_group1.com.services.EmailService;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,7 @@ public class AuthController {
     private final AppUserService appUserService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity<ApiRespone> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
@@ -52,7 +54,7 @@ public class AuthController {
     }
 
 
-    @SecurityRequirement(name = "bearerAuth")
+//    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/register")
     public ResponseEntity<Object> registerg(@Valid @RequestBody AppUserRequest appUserRequest) {
         AppUser appUser = appUserService.createAppUser(appUserRequest);
@@ -72,5 +74,12 @@ public class AuthController {
 //
 //
 //    @PostMapping("/resend")
+
+//    // for testing
+//    @GetMapping("/test-email")
+//    public String testEmail() {
+//        emailService.sendOtp("sakphearothkhin@gmail.com", "123456");
+//        return "Email sent!";
+//    }
 }
 
