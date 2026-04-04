@@ -62,6 +62,31 @@ public class AppUserServiceImpls implements AppUserService {
         return appUser;
     }
 
+    @Override
+    public void verifyOtp(String email, String otp) {
+
+        // get otp from Redis
+        String savedOtp = otpService.getOtp(email);
+
+        if(savedOtp == null){
+            throw new RuntimeException("OTP expired or not found!");
+        }
+
+        if(!savedOtp.equals(otp)){
+            throw new RuntimeException("Invalid OTP!");
+        }
+
+        AppUser appUser = appUserRepository.findUserByEmail(email);
+
+        if(appUser == null){
+            throw new RuntimeException("User not found!");
+        }
+
+        // verify user
+        appUser.setIsVerified(true);
+        appUserRepository.updateUserVerification(user);
+
+    }
 
 
     @Override
@@ -75,10 +100,10 @@ public class AppUserServiceImpls implements AppUserService {
         if(!appUser.getIsVerified()) {
             throw new RuntimeException("User is not verified");
         }
-
-
         return appUser;
     }
+
+
 
 
 }

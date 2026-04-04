@@ -6,7 +6,12 @@ import spring_group1.com.request.AppUserRequest;
 
 
 public interface AppUserService extends UserDetailsService {
+
     AppUser createAppUser(AppUserRequest appUserRequest);
+
+   void verifyOtp(String email, String otp);
+
+
 
 
 }
