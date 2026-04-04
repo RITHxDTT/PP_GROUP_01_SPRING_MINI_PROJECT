@@ -1,6 +1,5 @@
 package spring_group1.com.controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,17 +9,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import spring_group1.com.jwt.JwtUtils;
 import spring_group1.com.model.AppUser;
-import spring_group1.com.request.AppUserRequest;
-import spring_group1.com.request.LoginRequest;
-import spring_group1.com.response.ApiRespone;
-import spring_group1.com.services.AppUserService;
+import spring_group1.com.model.request.AppUserRequest;
+import spring_group1.com.model.request.LoginRequest;
+import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.AppUserService;
 import spring_group1.com.services.EmailService;
 
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auths")
 @RequiredArgsConstructor
 
 public class AuthController {
@@ -45,12 +43,11 @@ public class AuthController {
                 .success(true)
                 .message("login sucess ")
                 .status(HttpStatus.OK)
+                .timestamp(LocalDate.now())
                 .payload(token).build();
 
         return ResponseEntity.ok(apiRespone);
-
-
-
+        
     }
 
 

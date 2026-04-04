@@ -9,7 +9,7 @@ import spring_group1.com.exception.DuplicateEmailException;
 import spring_group1.com.exception.EmailNotFound;
 import spring_group1.com.model.AppUser;
 import spring_group1.com.repository.AppUserRepository;
-import spring_group1.com.request.AppUserRequest;
+import spring_group1.com.model.request.AppUserRequest;
 import spring_group1.com.services.AppUserService;
 import spring_group1.com.services.EmailService;
 import spring_group1.com.services.OtpService;

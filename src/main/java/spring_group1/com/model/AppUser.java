@@ -42,7 +42,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return this.email;
     }
 
 
