@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-//                dak jea derm3 stateless
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint));
