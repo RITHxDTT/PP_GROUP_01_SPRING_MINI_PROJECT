@@ -24,12 +24,14 @@ public class HabitController {
     private final HabitService habitService;
 
     @GetMapping
-//    @SecurityRequirement(name = "bearerAuth")Authentication authentication
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiRespone<List<Habit>>> getAllHabit(
             @RequestParam Integer page,
             @RequestParam Integer size
+            , Authentication authentication
             ) {
 
+        System.out.println(authentication.getPrincipal());
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<List<Habit>>builder()
                         .success(true)
@@ -54,6 +56,7 @@ public class HabitController {
         );
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(

@@ -14,7 +14,7 @@ public interface HabitRepository {
             @Result(property = "habitId", column = "habit_id"),
             @Result(property = "isActive", column = "is_active"),
             @Result(property = "appUserResponse", column = "app_user_id",
-                one = @One(select = "spring_group1.com.repository.AppUserRepositoryspring_group1.com.repository.AppUserRepository.getAllRolesByUserId")
+                    one = @One(select = "spring_group1.com.repository.AppUserRepository.getUserId")
             )
     })
     @Select("""

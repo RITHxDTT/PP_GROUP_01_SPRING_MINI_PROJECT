@@ -29,12 +29,10 @@ public interface AppUserRepository {
 
     @ResultMap("userMapper")
     @Select("""
-        SELECT username FROM app_users au
-        INNER JOIN habits h
-        ON h.app_user_id = au.app_user_id
-        WHERE h.app_user_id = #{userId}
+         SELECT * FROM app_users
+       WHERE app_user_id = #{userId}
    """)
-    List<String> getAllRolesByUserId (Integer userId);
+    AppUser getUserId (Integer userId);
 
     @ResultMap("userMapper")
     @Select("""
