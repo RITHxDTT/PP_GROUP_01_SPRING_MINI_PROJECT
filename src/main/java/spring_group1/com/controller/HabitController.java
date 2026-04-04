@@ -11,6 +11,8 @@ import spring_group1.com.model.request.HabitRequest;
 import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.HabitService;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,6 +36,7 @@ public class HabitController {
                         .message("Fetched all habits successfully!")
                         .status(HttpStatus.OK)
                         .payload(habitService.getAllHabit(page, size))
+                        .timestamp(LocalDate.now())
                         .build()
         );
     }
@@ -46,6 +49,7 @@ public class HabitController {
                         .message("Habit ID "+habitId+" fetched successfully!")
                         .status(HttpStatus.OK)
                         .payload(habitService.getHabitById(habitId))
+                        .timestamp(LocalDate.now())
                         .build()
         );
     }
@@ -58,6 +62,7 @@ public class HabitController {
                         .message("Habit "+habitRequest.getTitle()+" created successfully!")
                         .status(HttpStatus.CREATED)
                         .payload(habitService.createhabit(habitRequest))
+                        .timestamp(LocalDate.now())
                         .build()
         );
     }
@@ -70,6 +75,7 @@ public class HabitController {
                         .message("Habit ID "+habitId+" created successfully!")
                         .status(HttpStatus.OK)
                         .payload(habitService.updateHabit(habitId, habitRequest))
+                        .timestamp(LocalDate.now())
                         .build()
         );
     }
@@ -85,6 +91,7 @@ public class HabitController {
                             .success(true)
                             .message("Habit ID " + habitId + " deleted successfully!")
                             .status(HttpStatus.OK)
+                            .timestamp(LocalDate.now())
                             .build()
             );
         } else {
@@ -93,6 +100,7 @@ public class HabitController {
                             .success(false)
                             .message("Habit ID " + habitId + " not found!")
                             .status(HttpStatus.NOT_FOUND)
+                            .timestamp(LocalDate.now())
                             .build()
             );
         }
