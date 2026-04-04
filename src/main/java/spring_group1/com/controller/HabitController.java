@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring_group1.com.model.Habit;
+import spring_group1.com.request.HabitRequest;
 import spring_group1.com.response.ApiRespone;
 import spring_group1.com.services.HabitService;
 
@@ -43,6 +44,31 @@ public class HabitController {
                         .build()
         );
     }
+
+    @PostMapping
+    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiRespone.<Habit>builder()
+                        .success(true)
+                        .message("Habit "+habitRequest.getTitle()+" created successfully!")
+                        .status(HttpStatus.CREATED)
+                        .payload(habitService.createhabit(habitRequest))
+                        .build()
+        );
+    }
+
+    @PutMapping("/{habit-id}")
+    public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestParam HabitRequest habitRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiRespone.<Habit>builder()
+                        .success(true)
+                        .message("Habit ID "+habitId+" created successfully!")
+                        .status(HttpStatus.OK)
+                        .payload(habitService.updateHabit(habitId, habitRequest))
+                        .build()
+        );
+    }
+
 
 
 }
