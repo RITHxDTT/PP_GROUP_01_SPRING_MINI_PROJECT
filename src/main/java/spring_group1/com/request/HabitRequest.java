@@ -11,4 +11,5 @@ public class HabitRequest {
     private String title;
     private String description;
     private String frequency;
+    private Integer appUserId;
 }

@@ -15,4 +15,7 @@ public interface HabitService {
     Habit createhabit(HabitRequest habitRequest);
 
     Habit updateHabit(Integer habitId, HabitRequest habitRequest);
+
+    boolean deleteHabit(Integer habitId);
+
 }
