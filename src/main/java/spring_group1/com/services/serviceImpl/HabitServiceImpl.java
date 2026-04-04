@@ -41,12 +41,6 @@ public class HabitServiceImpl implements HabitService {
     public Habit createhabit(HabitRequest habitRequest) {
         List<Habit> habits = habitRepository.getAllHabit();
 
-        for(Habit hab : habits){
-            if(habitRequest.getTitle() != null){
-                throw new DuplicateName("This habit already has!");
-            }
-        }
-
         return habitRepository.createNewHabit(habitRequest);
     }
 
