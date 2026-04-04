@@ -13,9 +13,6 @@ public interface AppUserRepository {
             @Result(property = "userId", column = "app_user_id"),
             @Result(property = "profileImg", column = "profile_image"),
             @Result(property = "userName", column = "username")
-
-
-
     })
     @Select("""
         SELECT * FROM app_users

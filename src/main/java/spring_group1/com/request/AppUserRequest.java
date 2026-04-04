@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AppUserRequest {
     @NotBlank(message = "user can't be blank ! ")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Username must contain only characters")
     @Schema(defaultValue = "rith")
     private String  userName;
     @NotBlank(message = "Password must not be blank")
