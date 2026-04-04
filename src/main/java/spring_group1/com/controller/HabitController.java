@@ -23,7 +23,7 @@ public class HabitController {
     private final HabitService habitService;
 
     @GetMapping
-    public ResponseEntity<List<Habit>>  getAllHabit(@RequestParam Integer page, @RequestParam Integer size){
+    public List<Habit>  getAllHabit(@RequestParam Integer page, @RequestParam Integer size){
         return habitService.getAllHabit(page , size);
     }
 
