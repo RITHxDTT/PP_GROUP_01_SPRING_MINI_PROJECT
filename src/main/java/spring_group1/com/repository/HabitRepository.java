@@ -54,4 +54,10 @@ public interface HabitRepository {
     WHERE habit_id = #{habitId}
     """)
     int deleteHabitById(Integer habitId);
+
+    @ResultMap("habitMapper")
+    @Select("""
+    SELECT * FROM habits
+    """)
+    List<Habit> getAllHabit();
 }
