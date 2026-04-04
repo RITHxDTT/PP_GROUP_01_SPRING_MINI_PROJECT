@@ -107,21 +107,7 @@ public class GlobalException {
         return problemDetail;
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
 
-
-
-        Map<String, Object> error = new HashMap<>();
-        error.put("type", "about:blank");
-        error.put("title", "Bad Request");
-        error.put("status", 400);
-        error.put("detail", "Invalid username, email, or password. Please check your credentials and try again.");
-        error.put("instance", "/api/v1/auths/login");
-        error.put("timestamp", LocalDateTime.now());
-
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
 
 
 }
