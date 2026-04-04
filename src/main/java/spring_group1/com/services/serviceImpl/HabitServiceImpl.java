@@ -34,4 +34,10 @@ public class HabitServiceImpl implements HabitService {
     public Habit updateHabit(Integer habitId, HabitRequest habitRequest) {
         return habitRepository.updateNewHabit(habitId, habitRequest);
     }
+
+    @Override
+    public boolean deleteHabit(Integer habitId) {
+        int rowEffect = habitRepository.deleteHabitById(habitId);
+        return rowEffect > 0;
+    }
 }

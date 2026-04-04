@@ -69,6 +69,30 @@ public class HabitController {
         );
     }
 
+    @DeleteMapping("/{habit-id}")
+    public ResponseEntity<ApiRespone<Habit>> deleteHabit(@PathVariable("habit-id") Integer habitId){
+
+        boolean deleteHabit = habitService.deleteHabit(habitId);
+
+        if(deleteHabit){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    ApiRespone.<Habit>builder()
+                            .success(true)
+                            .message("Habit ID " + habitId + " deleted successfully!")
+                            .status(HttpStatus.OK)
+                            .build()
+            );
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    ApiRespone.<Habit>builder()
+                            .success(false)
+                            .message("Habit ID " + habitId + " not found!")
+                            .status(HttpStatus.NOT_FOUND)
+                            .build()
+            );
+        }
+    }
+
 
 
 }
