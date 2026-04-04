@@ -71,11 +71,12 @@ public class HabitController {
     }
 
     @PutMapping("/{habit-id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<Habit>builder()
                         .success(true)
-                        .message("Habit ID "+habitId+" created successfully!")
+                        .message("Habit ID "+habitId+" updated successfully!")
                         .status(HttpStatus.OK)
                         .payload(habitService.updateHabit(habitId, habitRequest))
                         .timestamp(LocalDate.now())

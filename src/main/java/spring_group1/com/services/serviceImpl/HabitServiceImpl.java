@@ -54,33 +54,36 @@ public class HabitServiceImpl implements HabitService {
         return habitRepository.createNewHabit(habitRequest, currentUserId);
     }
 
-    @Override
     public Habit updateHabit(Integer habitId, HabitRequest habitRequest) {
-        //find has id or not
-        if (habitRepository.findHabitById(habitId) == null) {
+        Integer currentUserId = SecurityUtils.getCurrentUserId();  // Get user first
+
+        // Check if habit exists AND belongs to current user
+        Habit existingHabit = habitRepository.findHabitById(habitId);
+        if (existingHabit == null || !existingHabit.getAppUserId().equals(currentUserId)) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
-        //find dup
-        List<Habit> habits = habitRepository.getAllHabit();
-        for(Habit hab : habits) {
-            if(hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
-                throw new DuplicateName("This habit already exists!");
+
+        // Check for duplicates only for THIS user (exclude current habit)
+        List<Habit> userHabits = habitRepository.findAllHabitsByUserId(currentUserId);
+        for(Habit hab : userHabits) {
+            if(!hab.getHabitId().equals(habitId) &&  // Don't check the habit being updated
+                    hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
+                throw new DuplicateName("You already have a habit with this title!");
             }
         }
-        Integer currentUserId = SecurityUtils.getCurrentUserId();
 
         return habitRepository.updateNewHabit(habitId, habitRequest, currentUserId);
     }
 
-    @Override
     public boolean deleteHabit(Integer habitId) {
+        Integer currentUserId = SecurityUtils.getCurrentUserId();
 
-        //find have id or not
-        if (habitRepository.findHabitById(habitId) == null) {
+        Habit habit = habitRepository.findHabitById(habitId);
+        if (habit == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
 
-        int rowEffect = habitRepository.deleteHabitById(habitId);
+        int rowEffect = habitRepository.deleteHabitById(habitId, currentUserId);
         return rowEffect > 0;
     }
 }

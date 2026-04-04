@@ -20,7 +20,7 @@ public interface HabitRepository {
     @Select("""
     SELECT * FROM habits
     LIMIT #{size}
-    OFFSET(#{page}-1) * #{size}
+    OFFSET((#{page}-1) * #{size})
     """)
     List<Habit> findAllHabit(Integer page, Integer size);
 
@@ -52,11 +52,11 @@ public interface HabitRepository {
                          @Param("userId") Integer userId);
 
     @ResultMap("habitMapper")
-    @Select("""
+    @Delete("""
     DELETE FROM habits
     WHERE habit_id = #{habitId}
     """)
-    int deleteHabitById(Integer habitId);
+    int deleteHabitById(Integer habitId, Integer currentUserId);
 
     @ResultMap("habitMapper")
     @Select("""
