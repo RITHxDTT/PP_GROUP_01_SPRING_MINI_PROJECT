@@ -54,27 +54,27 @@ public class HabitServiceImpl implements HabitService {
         return habitRepository.createNewHabit(habitRequest, currentUserId);
     }
 
+    @Override
     public Habit updateHabit(Integer habitId, HabitRequest habitRequest) {
-        Integer currentUserId = SecurityUtils.getCurrentUserId();  // Get user first
+        Integer currentUserId = SecurityUtils.getCurrentUserId(); //get current user
 
-        // Check if habit exists AND belongs to current user
-        Habit existingHabit = habitRepository.findHabitById(habitId);
-        if (existingHabit == null || !existingHabit.getAppUserId().equals(currentUserId)) {
+        Habit existHabit = habitRepository.findHabitById(habitId);
+        if (existHabit == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
 
-        // Check for duplicates only for THIS user (exclude current habit)
-        List<Habit> userHabits = habitRepository.findAllHabitsByUserId(currentUserId);
-        for(Habit hab : userHabits) {
-            if(!hab.getHabitId().equals(habitId) &&  // Don't check the habit being updated
-                    hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
-                throw new DuplicateName("You already have a habit with this title!");
+        //check is dup
+        List<Habit> allHabits = habitRepository.getAllHabit();
+        for(Habit hab : allHabits) {
+            if (hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
+                throw new DuplicateName("Habit already have");
             }
         }
 
         return habitRepository.updateNewHabit(habitId, habitRequest, currentUserId);
     }
 
+    @Override
     public boolean deleteHabit(Integer habitId) {
         Integer currentUserId = SecurityUtils.getCurrentUserId();
 
