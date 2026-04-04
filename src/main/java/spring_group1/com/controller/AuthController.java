@@ -67,5 +67,10 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
+//    @PostMapping("/verify")
+//
+//
+//    @PostMapping("/resend")
 }
 
