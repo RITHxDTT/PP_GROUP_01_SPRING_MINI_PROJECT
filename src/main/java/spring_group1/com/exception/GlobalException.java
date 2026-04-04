@@ -4,12 +4,15 @@ package spring_group1.com.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,6 +105,22 @@ public class GlobalException {
 
 
         return problemDetail;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
+
+
+
+        Map<String, Object> error = new HashMap<>();
+        error.put("type", "about:blank");
+        error.put("title", "Bad Request");
+        error.put("status", 400);
+        error.put("detail", "Invalid username, email, or password. Please check your credentials and try again.");
+        error.put("instance", "/api/v1/auths/login");
+        error.put("timestamp", LocalDateTime.now());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 

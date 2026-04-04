@@ -19,7 +19,7 @@ import spring_group1.com.services.AppUserService;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auths")
 @RequiredArgsConstructor
 
 public class AuthController {
@@ -43,16 +43,15 @@ public class AuthController {
                 .success(true)
                 .message("login sucess ")
                 .status(HttpStatus.OK)
+                .timestamp(LocalDate.now())
                 .payload(token).build();
 
         return ResponseEntity.ok(apiRespone);
-
-
-
+        
     }
 
 
-    @SecurityRequirement(name = "bearerAuth")
+//    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/register")
     public ResponseEntity<Object> registerg(@Valid @RequestBody AppUserRequest appUserRequest) {
         AppUser appUser = appUserService.createAppUser(appUserRequest);
