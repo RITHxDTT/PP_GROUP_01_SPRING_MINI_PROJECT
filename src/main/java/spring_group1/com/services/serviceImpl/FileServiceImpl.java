@@ -24,8 +24,6 @@ public class FileServiceImpl implements FileService {
     private final S3Client s3Client;
     private final String bucketName = "files";
 
-//    Path path = Paths.get("src/main/resources/files");
-
     @Override
     public String uploadFile(MultipartFile file) throws IOException {
         createBucketIfNotExists();

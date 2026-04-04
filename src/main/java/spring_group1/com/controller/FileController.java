@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import spring_group1.com.model.FileResponse;
-import spring_group1.com.response.ApiRespone;
+//import spring_group1.com.response.ApiRespone;
+import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.FileService;
 
 import java.io.IOException;
