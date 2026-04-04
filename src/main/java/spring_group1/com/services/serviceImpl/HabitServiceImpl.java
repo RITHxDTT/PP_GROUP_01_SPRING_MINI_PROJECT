@@ -19,4 +19,9 @@ public class HabitServiceImpl implements HabitService {
     public List<Habit> getAllHabit(Integer page, Integer size) {
         return habitRepository.findAllHabit(page, size);
     }
+
+    @Override
+    public Habit getHabitById(Integer habitId) {
+        return habitRepository.findHabitById(habitId);
+    }
 }
