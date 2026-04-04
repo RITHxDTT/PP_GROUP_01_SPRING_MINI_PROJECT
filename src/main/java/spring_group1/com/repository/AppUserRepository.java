@@ -32,12 +32,12 @@ public interface AppUserRepository {
 
     @ResultMap("userMapper")
     @Select("""
-        SELECT role_name FROM roles r
-        INNER JOIN user_role ur 
-        ON r.role_id = ur.role_id
-        WHERE user_id = #{userId}
-    """)
-    List<String> getAllRolesByUserId(Integer userId);
+        SELECT username FROM app_users au
+        INNER JOIN habits h
+        ON h.app_user_id = au.app_user_id
+        WHERE h.app_user_id = #{userId}
+   """)
+    List<String> getAllRolesByUserId (Integer userId);
 
     @ResultMap("userMapper")
     @Select("""

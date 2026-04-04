@@ -3,6 +3,7 @@ package spring_group1.com.repository;
 import org.apache.ibatis.annotations.*;
 import org.springframework.http.ResponseEntity;
 import spring_group1.com.model.Habit;
+import spring_group1.com.request.HabitRequest;
 
 import java.util.List;
 
@@ -31,4 +32,20 @@ public interface HabitRepository {
     WHERE habit_id = #{habitId}
     """)
     Habit findHabitById(Integer habitId);
+
+    @ResultMap("habitMapper")
+    @Select("""
+    INSERT INTO habits (title, description, frequency)
+    VALUES (#{title}, #{description},#{frequency})
+        RETURNING *
+   """)
+    Habit createNewHabit(HabitRequest habitRequest);
+
+    @ResultMap("habitMapper")
+    @Select("""
+    UPDATE habits
+    SET title = #{title}, description = #{description}, frequency = #{frequency}
+    WHERE habit_id = #{habitId}
+   """)
+    Habit updateNewHabit(Integer habitId, HabitRequest habitRequest);
 }

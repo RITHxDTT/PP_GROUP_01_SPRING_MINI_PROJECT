@@ -1,7 +1,7 @@
 package spring_group1.com.services;
 
-import org.springframework.http.ResponseEntity;
 import spring_group1.com.model.Habit;
+import spring_group1.com.request.HabitRequest;
 
 import java.util.List;
 
@@ -11,4 +11,8 @@ public interface HabitService {
     List<Habit> getAllHabit(Integer page, Integer size);
 
     Habit getHabitById(Integer habitId);
+
+    Habit createhabit(HabitRequest habitRequest);
+
+    Habit updateHabit(Integer habitId, HabitRequest habitRequest);
 }
