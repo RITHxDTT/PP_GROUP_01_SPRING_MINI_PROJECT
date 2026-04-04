@@ -9,4 +9,6 @@ public interface HabitService {
 
 
     List<Habit> getAllHabit(Integer page, Integer size);
+
+    Habit getHabitById(Integer habitId);
 }

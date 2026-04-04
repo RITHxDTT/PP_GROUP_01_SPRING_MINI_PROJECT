@@ -23,4 +23,12 @@ public interface HabitRepository {
     OFFSET(#{page}-1) * #{size}
     """)
     List<Habit> findAllHabit(Integer page, Integer size);
+
+
+    @ResultMap("habitMapper")
+    @Select("""
+    SELECT * FROM habits
+    WHERE habit_id = #{habitId}
+    """)
+    Habit findHabitById(Integer habitId);
 }
