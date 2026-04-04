@@ -22,11 +22,11 @@ public class HabitController {
     private final HabitService habitService;
 
     @GetMapping
-    @SecurityRequirement(name = "bearerAuth")
+//    @SecurityRequirement(name = "bearerAuth")Authentication authentication
     public ResponseEntity<ApiRespone<List<Habit>>> getAllHabit(
             @RequestParam Integer page,
-            @RequestParam Integer size,
-            Authentication authentication) {
+            @RequestParam Integer size
+            ) {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<List<Habit>>builder()
@@ -51,7 +51,7 @@ public class HabitController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest,  Authentication authentication){
+    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<Habit>builder()
                         .success(true)
