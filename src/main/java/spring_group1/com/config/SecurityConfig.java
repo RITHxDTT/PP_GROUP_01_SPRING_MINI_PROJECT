@@ -45,12 +45,14 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers("/api/v1/profile").permitAll()
-                        .requestMatchers("/api/v1/achievements/**").authenticated()
+
+
                         .anyRequest().authenticated()
                 )
 
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint));
 
@@ -66,6 +68,8 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(appUserService);
+
+
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }

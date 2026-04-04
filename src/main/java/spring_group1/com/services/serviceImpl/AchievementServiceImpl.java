@@ -15,7 +15,7 @@ import java.util.List;
 public class AchievementServiceImpl implements AchievementService {
     private final AchievementRepository achievementRepository;
     @Override
-    public List<Achievements> getAllAchievements() {
-        return achievementRepository.getAchievements();
+    public List<Achievements> getAllAchievements(Integer page, Integer size) {
+        return achievementRepository.getAchievements(page, size);
     }
 }

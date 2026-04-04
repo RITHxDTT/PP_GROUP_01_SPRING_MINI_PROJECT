@@ -1,15 +1,26 @@
 package spring_group1.com.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import spring_group1.com.model.Achievements;
+import spring_group1.com.response.ApiRespone;
 import spring_group1.com.services.AchievementService;
 import spring_group1.com.services.AchievementService;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -17,9 +28,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AchievementController {
     private final AchievementService achievementService;
+    private final AuthenticationManager authenticationManager;
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping
-    public List<Achievements> getAllAchievements(){
+    public ResponseEntity<?> getAllAchievements(@RequestParam @Positive(message = "Page can't be negative and zero") Integer page, @RequestParam @Positive(message = "size can't be negative and zero") Integer size){
+        List<Achievements> achievements = achievementService.getAllAchievements(page,size);
 
-        return achievementService.getAllAchievements();
+        ApiRespone apiRespone = ApiRespone.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .message("Get All achievements successfully")
+                .payload(achievements)
+                .timestamp(LocalDate.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiRespone);
     }
 }

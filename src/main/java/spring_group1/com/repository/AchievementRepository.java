@@ -24,8 +24,10 @@ public interface AchievementRepository {
             @Result(property = "xpRequired", column ="xp_required" )
     })
     @Select("""
-           SELECT * FROM achievements;
+           SELECT * FROM achievements
+           LIMIT #{size}
+           OFFSET (#{page}-1) * #{size};
            """)
-    List<Achievements> getAchievements();
+    List<Achievements> getAchievements(Integer page, Integer size);
 }
 
