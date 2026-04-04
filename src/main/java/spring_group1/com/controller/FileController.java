@@ -12,6 +12,8 @@ import spring_group1.com.response.ApiRespone;
 import spring_group1.com.services.FileService;
 
 import java.io.IOException;
+import java.net.URLConnection;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/files")
@@ -36,17 +38,20 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiRespone.builder()
                         .success(true)
-                        .message("Upload file successfully")
+                        .message("File uploaded successfully to RustFS")
                         .status(HttpStatus.CREATED)
                         .payload(fileResponse)
+                        .timestamp(LocalDateTime.now())
                         .build()
         );
     }
-    @GetMapping("/view/{fileName}")
+    @GetMapping(value="/view/{fileName}", produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> viewFileByName(@PathVariable String fileName) throws IOException {
-        Resource resource = fileService.getFileByFileName(fileName);
+        Resource resource = fileService.viewFileByFileName(fileName);
+        String contentType = URLConnection.guessContentTypeFromName(fileName);
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
     }
 }
+

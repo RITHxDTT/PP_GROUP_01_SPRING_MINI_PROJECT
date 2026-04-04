@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public interface FileService {
     String uploadFile(MultipartFile file) throws IOException;
-    Resource getFileByFileName(String fileName) throws IOException;
-
+    Resource viewFileByFileName(String fileName) throws IOException;
 }
 

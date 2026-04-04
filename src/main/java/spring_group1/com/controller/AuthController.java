@@ -17,6 +17,7 @@ import spring_group1.com.services.AppUserService;
 import spring_group1.com.services.AppUserService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -61,7 +62,7 @@ public class AuthController {
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Success register ! ")
-                .timestamp(LocalDate.now())
+                .timestamp(LocalDateTime.now())
                 .payload(appUser)
                 .build();
 
