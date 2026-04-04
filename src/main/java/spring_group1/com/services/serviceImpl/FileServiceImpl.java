@@ -64,9 +64,6 @@ public class FileServiceImpl implements FileService {
                 .build();
         ResponseInputStream<GetObjectResponse> inputStream = s3Client.getObject(request);
         return new InputStreamResource(inputStream);
-//        Path filePath = Paths.get("src/main/resources/files/" + fileName);
-//        Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-//        return resource;
 
     }
 }
