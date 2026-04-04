@@ -2,6 +2,7 @@ package spring_group1.com.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ public class AchievementController {
     private final AchievementService achievementService;
     @GetMapping
     public List<Achievements> getAllAchievements(){
+
         return achievementService.getAllAchievements();
     }
 }
