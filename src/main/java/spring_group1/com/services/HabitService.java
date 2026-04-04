@@ -12,7 +12,7 @@ public interface HabitService {
 
     Habit getHabitById(Integer habitId);
 
-    Habit createhabit(HabitRequest habitRequest);
+    Habit createHabit(HabitRequest habitRequest);
 
     Habit updateHabit(Integer habitId, HabitRequest habitRequest);
 

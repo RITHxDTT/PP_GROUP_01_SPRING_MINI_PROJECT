@@ -8,6 +8,7 @@ import spring_group1.com.model.Habit;
 import spring_group1.com.model.request.HabitRequest;
 import spring_group1.com.repository.HabitRepository;
 import spring_group1.com.services.HabitService;
+import spring_group1.com.utils.SecurityUtils;
 
 import java.util.List;
 
@@ -38,30 +39,43 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public Habit createhabit(HabitRequest habitRequest) {
+    public Habit createHabit(HabitRequest habitRequest) {
+        // get current user
+        int currentUserId = SecurityUtils.getCurrentUserId();
+        // check dup
         List<Habit> habits = habitRepository.getAllHabit();
-
-        return habitRepository.createNewHabit(habitRequest);
+        for (Habit hab : habits) {
+            // Only check duplicates for the CURRENT user
+            if (hab.getAppUserResponse().getUserId() == currentUserId &&
+                    hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
+                throw new DuplicateName("You already have a habit named: " + habitRequest.getTitle());
+            }
+        }
+        return habitRepository.createNewHabit(habitRequest, currentUserId);
     }
 
     @Override
     public Habit updateHabit(Integer habitId, HabitRequest habitRequest) {
+        //find has id or not
         if (habitRepository.findHabitById(habitId) == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
+        //find dup
         List<Habit> habits = habitRepository.getAllHabit();
-
-        for(Habit hab : habits){
-            if(habitRequest.getTitle() != null){
-                throw new DuplicateName("This habit already has!");
+        for(Habit hab : habits) {
+            if(hab.getTitle().equalsIgnoreCase(habitRequest.getTitle())) {
+                throw new DuplicateName("This habit already exists!");
             }
         }
-        return habitRepository.updateNewHabit(habitId, habitRequest);
+        Integer currentUserId = SecurityUtils.getCurrentUserId();
+
+        return habitRepository.updateNewHabit(habitId, habitRequest, currentUserId);
     }
 
     @Override
     public boolean deleteHabit(Integer habitId) {
 
+        //find have id or not
         if (habitRepository.findHabitById(habitId) == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }

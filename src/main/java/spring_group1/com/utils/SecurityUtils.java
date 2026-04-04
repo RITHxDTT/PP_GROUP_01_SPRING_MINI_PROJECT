@@ -12,4 +12,15 @@ public class SecurityUtils {
         return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    public static Integer getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Check if the principal is an instance of your AppUser model
+//        if (principal instanceof AppUser) {
+            return ((AppUser) principal).getUserId();
+//        }
+//
+//        throw new RuntimeException("User not authenticated or session expired");
+    }
+
 }

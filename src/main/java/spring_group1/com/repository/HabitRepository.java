@@ -34,19 +34,22 @@ public interface HabitRepository {
 
     @ResultMap("habitMapper")
     @Select("""
-    INSERT INTO habits (title, description, frequency, app_user_id)
-    VALUES (#{title}, #{description},#{frequency}, #{appUserId})
+        INSERT INTO habits (title, description, frequency, app_user_id)
+        VALUES (#{req.title}, #{req.description}, #{req.frequency}, #{userId})
         RETURNING *
-   """)
-    Habit createNewHabit(HabitRequest habitRequest);
+    """)
+    Habit createNewHabit(@Param("req") HabitRequest habitRequest, @Param("userId") Integer userId);
 
     @ResultMap("habitMapper")
     @Select("""
-    UPDATE habits
-    SET title = #{title}, description = #{description}, frequency = #{frequency}
-    WHERE habit_id = #{habitId}
+        UPDATE habits
+        SET title = #{req.title}, description = #{req.description}, frequency = #{req.frequency}
+        WHERE habit_id = #{habitId} AND app_user_id = #{userId}
+        RETURNING *
    """)
-    Habit updateNewHabit(Integer habitId, HabitRequest habitRequest);
+    Habit updateNewHabit(@Param("habitId") Integer habitId,
+                         @Param("req") HabitRequest habitRequest,
+                         @Param("userId") Integer userId);
 
     @ResultMap("habitMapper")
     @Select("""

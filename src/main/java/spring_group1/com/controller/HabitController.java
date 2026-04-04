@@ -64,14 +64,14 @@ public class HabitController {
                         .success(true)
                         .message("Habit "+habitRequest.getTitle()+" created successfully!")
                         .status(HttpStatus.CREATED)
-                        .payload(habitService.createhabit(habitRequest))
+                        .payload(habitService.createHabit(habitRequest))
                         .timestamp(LocalDate.now())
                         .build()
         );
     }
 
     @PutMapping("/{habit-id}")
-    public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestParam HabitRequest habitRequest){
+    public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<Habit>builder()
                         .success(true)
@@ -108,7 +108,4 @@ public class HabitController {
             );
         }
     }
-
-
-
 }
