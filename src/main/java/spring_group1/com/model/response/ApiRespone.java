@@ -1,4 +1,4 @@
-package spring_group1.com.response;
+package spring_group1.com.model.response;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
