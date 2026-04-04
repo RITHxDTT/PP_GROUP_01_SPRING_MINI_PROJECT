@@ -33,11 +33,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http.cors(Customizer.withDefaults())
-//                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers(
                                 "/api/v1/habits/**",
-                                "/api/v1/auth/**",
+                                "/api/v1/auths/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
