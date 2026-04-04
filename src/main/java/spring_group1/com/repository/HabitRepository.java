@@ -56,7 +56,7 @@ public interface HabitRepository {
     DELETE FROM habits
     WHERE habit_id = #{habitId}
     """)
-    int deleteHabitById(Integer habitId, Integer currentUserId);
+    int deleteHabitById(Integer habitId);
 
     @ResultMap("habitMapper")
     @Select("""

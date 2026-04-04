@@ -74,14 +74,13 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public boolean deleteHabit(Integer habitId) {
-        Integer currentUserId = SecurityUtils.getCurrentUserId();
 
         Habit habit = habitRepository.findHabitById(habitId);
         if (habit == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
 
-        int rowEffect = habitRepository.deleteHabitById(habitId, currentUserId);
+        int rowEffect = habitRepository.deleteHabitById(habitId);
         return rowEffect > 0;
     }
 }
