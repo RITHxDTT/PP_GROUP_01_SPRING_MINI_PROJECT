@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import spring_group1.com.exception.DuplicateName;
 import spring_group1.com.exception.NotFoundExceptionHandler;
 import spring_group1.com.model.Habit;
+import spring_group1.com.model.request.HabitRequest;
 import spring_group1.com.repository.HabitRepository;
-import spring_group1.com.request.HabitRequest;
 import spring_group1.com.services.HabitService;
 
 import java.util.List;

@@ -1,12 +1,14 @@
 package spring_group1.com.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import spring_group1.com.model.Habit;
-import spring_group1.com.request.HabitRequest;
-import spring_group1.com.response.ApiRespone;
+import spring_group1.com.model.request.HabitRequest;
+import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.HabitService;
 
 import java.util.List;
@@ -14,15 +16,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/habits")
 @RequiredArgsConstructor
+
 public class HabitController {
 
     private final HabitService habitService;
 
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiRespone<List<Habit>>> getAllHabit(
             @RequestParam Integer page,
-            @RequestParam Integer size
-    ) {
+            @RequestParam Integer size,
+            Authentication authentication) {
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<List<Habit>>builder()
                         .success(true)
@@ -46,7 +51,7 @@ public class HabitController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
+    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest,  Authentication authentication){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<Habit>builder()
                         .success(true)

@@ -1,7 +1,7 @@
 package spring_group1.com.services;
 
 import spring_group1.com.model.Habit;
-import spring_group1.com.request.HabitRequest;
+import spring_group1.com.model.request.HabitRequest;
 
 import java.util.List;
 

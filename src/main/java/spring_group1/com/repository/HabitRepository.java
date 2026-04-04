@@ -2,7 +2,7 @@ package spring_group1.com.repository;
 
 import org.apache.ibatis.annotations.*;
 import spring_group1.com.model.Habit;
-import spring_group1.com.request.HabitRequest;
+import spring_group1.com.model.request.HabitRequest;
 
 import java.util.List;
 

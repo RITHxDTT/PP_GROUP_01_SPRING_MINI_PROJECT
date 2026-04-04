@@ -1,4 +1,4 @@
-package spring_group1.com.request;
+package spring_group1.com.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
