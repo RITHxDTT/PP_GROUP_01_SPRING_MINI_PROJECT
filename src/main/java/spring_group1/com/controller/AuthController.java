@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 
 public class AuthController {
-
+// update
     private final AppUserService appUserService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
