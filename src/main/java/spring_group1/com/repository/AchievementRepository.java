@@ -31,7 +31,9 @@ public interface AchievementRepository {
     @ResultMap( "achievementMapper")
 
 
-    
+    @Select("""
+            
+            """)
     List<Achievements> getAllAchievementsForUser(Integer page, Integer size);
 }
 
