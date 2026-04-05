@@ -18,7 +18,7 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public void saveOtp(String email, String otp) {
-        stringRedisTemplate.opsForValue().set(OTP_KEY + email, otp, Duration.ofMinutes(3));
+        stringRedisTemplate.opsForValue().set(OTP_KEY + email, otp, Duration.ofMinutes(5));
     }
 
     @Override

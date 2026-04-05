@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiRespone <T> {
+public class ApiResponse<T> {
     private String title;
     private String message;
     private HttpStatus status;

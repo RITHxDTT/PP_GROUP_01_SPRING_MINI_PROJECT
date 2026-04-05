@@ -65,37 +65,43 @@ public class AppUserServiceImpls implements AppUserService {
     @Override
     public void verifyOtp(String email, String otp) {
 
-        // get otp from Redis
+        //get otp from Redis
         String savedOtp = otpService.getOtp(email);
-
         if(savedOtp == null){
             throw new RuntimeException("OTP expired or not found!");
         }
-
+        // compare
         if(!savedOtp.equals(otp)){
             throw new RuntimeException("Invalid OTP!");
         }
-
+        // find user
         AppUser appUser = appUserRepository.findUserByEmail(email);
-
         if(appUser == null){
             throw new RuntimeException("User not found!");
         }
 
-        // verify user
-        appUser.setIsVerified(true);
-        appUserRepository.updateUserVerification(user);
+        // update DB (verify user)
+        appUserRepository.updateUserVerification(email);
 
+        //delete OTP
+        otpService.deleteOtp(email);
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        System.out.println("SPRING SEARCHING EMAIL: " + email);
+
         AppUser appUser = appUserRepository.findUserByEmail(email);
 
         if(appUser == null) {
          throw new EmailNotFound("Email not found");
         }
+
+        System.out.println("DB EMAIL: " + appUser.getEmail());
+        System.out.println("DB PASSWORD: " + appUser.getPassword());
+        System.out.println("IS VERIFIED: " + appUser.getIsVerified());
 
         if(!appUser.getIsVerified()) {
             throw new RuntimeException("User is not verified");

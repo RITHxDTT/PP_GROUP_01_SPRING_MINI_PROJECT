@@ -20,7 +20,7 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("OTP Verification");
-        message.setText("Your OTP is " + otp + "\n It will expire in 3 minutes.");
+        message.setText("Your OTP is " + otp + "\n It will expire in 5 minutes.");
 
         mailSender.send(message);
     }

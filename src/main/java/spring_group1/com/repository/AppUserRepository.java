@@ -12,7 +12,8 @@ public interface AppUserRepository {
     @Results(id = "userMapper", value = {
             @Result(property = "userId", column = "app_user_id"),
             @Result(property = "profileImg", column = "profile_image"),
-            @Result(property = "userName", column = "username")
+            @Result(property = "userName", column = "username"),
+            @Result(property = "isVerified", column = "is_verified")
 
 
     })
