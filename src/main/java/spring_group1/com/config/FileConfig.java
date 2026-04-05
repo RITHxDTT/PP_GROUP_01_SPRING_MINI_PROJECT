@@ -14,13 +14,13 @@ import java.net.URI;
 @Configuration
 public class FileConfig {
 
-    @Value("${s3.uri}")
+    @Value("http://localhost:9000")
     private String uri;
 
-    @Value("${s3.accessKeyId}")
+    @Value("admin")
     private String accessKeyId;
 
-    @Value("${s3.secretAccessKey}")
+    @Value("password")
     private String secretAccessKey;
 
     @Bean

@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring_group1.com.model.request.ProfileRequest;
-import spring_group1.com.model.response.ApiRespone;
+import spring_group1.com.model.response.ApiResponse;
 import spring_group1.com.model.response.ProfileResponse;
 import spring_group1.com.services.AppUserService;
 import spring_group1.com.utils.SecurityUtils;
@@ -23,11 +23,11 @@ public class ProfileController {
     private final AppUserService appUserService;
 
     @GetMapping
-    public ResponseEntity<ApiRespone<ProfileResponse>> getProfile() {
+    public ResponseEntity<ApiResponse<ProfileResponse>> getProfile() {
         String currentUserEmail = SecurityUtils.getCurrentUserEmail();
         ProfileResponse profile = appUserService.getUserProfile(currentUserEmail);
 
-        ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
+        ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
                 .success(true)
                 .message("Profile fetched successfully")
                 .status(HttpStatus.OK)
@@ -39,11 +39,11 @@ public class ProfileController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiRespone<ProfileResponse>> deleteProfile(){
+    public ResponseEntity<ApiResponse<ProfileResponse>> deleteProfile(){
         String currentUserEmail = SecurityUtils.getCurrentUserEmail();
                 appUserService.deleteProfile(currentUserEmail);
 
-        ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
+        ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
                 .success(true)
                 .message("Profile deleted successfully")
                 .status(HttpStatus.OK)
@@ -55,11 +55,10 @@ public class ProfileController {
     }
 
     @PutMapping
-    public ResponseEntity<ApiRespone<ProfileResponse>> updateProfile(@RequestBody ProfileRequest profileRequest){
-        String currentUserEmail = SecurityUtils.getCurrentUserEmail();
-        ProfileResponse profileResponse = appUserService.updateProfile(currentUserEmail, profileRequest);
+    public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(@RequestBody ProfileRequest profileRequest){
+        ProfileResponse profileResponse = appUserService.updateProfile( profileRequest);
 
-        ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
+        ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
                 .success(true)
                 .message("Profile updated successfully")
                 .status(HttpStatus.OK)

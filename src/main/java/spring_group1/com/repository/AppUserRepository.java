@@ -17,33 +17,32 @@ public interface AppUserRepository {
             @Result(property = "isVerified", column = "is_verified")
 
 
-
     })
     @Select("""
-        SELECT * FROM app_users
-        WHERE email = #{email}
-    """)
+                SELECT * FROM app_users
+                WHERE email = #{email}
+            """)
     AppUser findUserByEmail(String email);
 
     @ResultMap("userMapper")
     @Select("""
- SELECT * FROM app_users
-        WHERE username = #{username}
-""")
+             SELECT * FROM app_users
+                    WHERE username = #{username}
+            """)
     AppUser findUserByUsername(String username);
 
     @ResultMap("userMapper")
     @Select("""
-         SELECT * FROM app_users
-       WHERE app_user_id = #{userId}
-   """)
+                SELECT * FROM app_users
+                WHERE app_user_id = #{userId}
+            """)
     AppUser getUserId (Integer userId);
 
     @ResultMap("userMapper")
     @Select("""
-        insert into app_users(username, email, password, profile_image)
-        values(#{req.userName}, #{req.email}, #{req.password}, #{req.profileImg}) returning*
-        """)
+            insert into app_users(username, email, password, profile_image)
+            values(#{req.userName}, #{req.email}, #{req.password}, #{req.profileImg}) returning*
+            """)
     AppUser createAppUser(@Param("req") AppUser appUserRequest);
 
 
@@ -56,8 +55,16 @@ public interface AppUserRepository {
     @Update("""
             UPDATE app_users 
             SET username = #{userName}, profile_image = #{profileImg}
-            WHERE email = #{email}
+            WHERE app_user_id = #{userId}
             RETURNING *;
             """)
-    void updateProfile(AppUser user);
+    void updateProfile(@Param("res") AppUser user, @Param("userId")  Integer userId);
+
+    // verify user
+    @Update("""
+                UPDATE app_users
+                SET is_verified = true
+                WHERE email = #{email}
+            """)
+    void updateUserVerification(String email);
 }
