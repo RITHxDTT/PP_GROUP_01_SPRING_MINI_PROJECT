@@ -56,8 +56,7 @@ public class ProfileController {
 
     @PutMapping
     public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(@RequestBody ProfileRequest profileRequest){
-        String currentUserEmail = SecurityUtils.getCurrentUserEmail();
-        ProfileResponse profileResponse = appUserService.updateProfile(currentUserEmail, profileRequest);
+        ProfileResponse profileResponse = appUserService.updateProfile( profileRequest);
 
         ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
                 .success(true)
