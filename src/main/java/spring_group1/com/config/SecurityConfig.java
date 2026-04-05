@@ -1,5 +1,6 @@
 package spring_group1.com.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,7 +24,6 @@ import spring_group1.com.services.AppUserService;
 @Data
 @AllArgsConstructor
 @Configuration
-
 public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
@@ -38,21 +37,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers(
-                                "/api/v1/habits/**",
                                 "/api/v1/auths/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers("/api/v1/profile").permitAll()
-
-
                         .anyRequest().authenticated()
                 )
 
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint));
 
@@ -68,10 +63,13 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(appUserService);
-
-
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
 

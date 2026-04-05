@@ -16,7 +16,6 @@ import java.util.function.Function;
 public class JwtUtils {
     private final String SECRET = "FnHfyiCC5Tc4/FNDPldMiZRf/tfCUNw8320+2cfHM5U=";
 
-    //    jab yk jea nea ti
     private final long EXPIRATION_TIME = TimeUnit.MINUTES.toMillis(10);
 
     public String generateToken(String email) {

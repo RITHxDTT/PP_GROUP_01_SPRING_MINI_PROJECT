@@ -103,10 +103,30 @@ public class GlobalException {
         problemDetail.setProperty("errors", errors);
         problemDetail.setProperty("timestamp" , Instant.now());
 
+
         return problemDetail;
     }
 
+    @ExceptionHandler(AccountAlreadyVerifiedException.class)
+    public ProblemDetail handleAccountVerified(AccountAlreadyVerifiedException ex) {
 
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        detail.setTitle("Account Already Verified");
+        detail.setDetail(ex.getMessage());
+        detail.setProperty("timestamp", Instant.now());
 
+        return detail;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleAll(Exception ex) {
+
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        detail.setTitle("General Error");
+        detail.setDetail(ex.getMessage());
+        detail.setProperty("timestamp", Instant.now());
+
+        return detail;
+    }
 
 }
