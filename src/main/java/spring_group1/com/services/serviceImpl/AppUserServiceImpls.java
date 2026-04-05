@@ -5,9 +5,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spring_group1.com.exception.AccountAlreadyVerifiedException;
 import spring_group1.com.exception.DuplicateEmailException;
 import spring_group1.com.exception.EmailNotFound;
 import spring_group1.com.model.AppUser;
+import spring_group1.com.model.response.AppUserResponse;
 import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.model.request.AppUserRequest;
 import spring_group1.com.services.AppUserService;
@@ -28,15 +30,15 @@ public class AppUserServiceImpls implements AppUserService {
     private final EmailService emailService;
 
     @Override
-    public AppUser createAppUser(AppUserRequest appUserRequest) {
+    public AppUserResponse createAppUser(AppUserRequest appUserRequest) {
 
-        AppUser findByemail = appUserRepository.findUserByEmail(appUserRequest.getEmail());
-        if (findByemail != null) {
+        AppUser findByEmail = appUserRepository.findUserByEmail(appUserRequest.getEmail());
+        if (findByEmail != null) {
             throw new DuplicateEmailException("Email already exists!");
         }
 
-        AppUser findByname = appUserRepository.findUserByUsername(appUserRequest.getUserName());
-        if (findByname != null) {
+        AppUser findByName = appUserRepository.findUserByUsername(appUserRequest.getUserName());
+        if (findByName != null) {
             throw new DuplicateEmailException("Username already exists!");
         }
 
@@ -50,48 +52,92 @@ public class AppUserServiceImpls implements AppUserService {
 
         appUser.setIsVerified(false);
         appUser.setTimestamp(LocalDateTime.now());
-        appUserRepository.createAppUser(appUser);
+        AppUser savedUser = appUserRepository.createAppUser(appUser);
 
         //OTP logic
         String otp = OtpUtil.generateOtp();
-        otpService.saveOtp(appUser.getEmail(), otp);
-        otpService.setCooldown(appUser.getEmail());
+        otpService.saveOtp(savedUser.getEmail(), otp);
+        otpService.setCooldown(savedUser.getEmail());
+        emailService.sendOtp(savedUser.getEmail(), otp);
 
-        emailService.sendOtp(appUser.getEmail(), otp);
+        AppUserResponse response = AppUserResponse.builder()
+                .userId(savedUser.getUserId())
+                .username(savedUser.getUsername())
+                .email(savedUser.getEmail())
+                .profileImg(savedUser.getProfileImg())
+                .isVerified(savedUser.getIsVerified())
+                .xp(savedUser.getXp())
+                .level(savedUser.getLevel())
+                .build();
 
-        return appUser;
+        return response;
     }
 
     @Override
     public void verifyOtp(String email, String otp) {
 
-        //get otp from Redis
+        AppUser appUser = appUserRepository.findUserByEmail(email);
+
+        if(appUser == null){
+            throw new RuntimeException("User not found!");
+        }
+        if(Boolean.TRUE.equals(appUser.getIsVerified())){
+            throw new RuntimeException("Account is already verified!");
+        }
+
+        // check OTP
         String savedOtp = otpService.getOtp(email);
+
         if(savedOtp == null){
             throw new RuntimeException("OTP expired or not found!");
         }
-        // compare
+
         if(!savedOtp.equals(otp)){
             throw new RuntimeException("Invalid OTP!");
         }
-        // find user
+
+        // update DB
+        appUserRepository.updateUserVerification(email);
+
+        // delete OTP
+        otpService.deleteOtp(email);
+    }
+
+    @Override
+    public void resendOtp(String email) {
+
         AppUser appUser = appUserRepository.findUserByEmail(email);
+
         if(appUser == null){
             throw new RuntimeException("User not found!");
         }
 
-        // update DB (verify user)
-        appUserRepository.updateUserVerification(email);
+        if (Boolean.TRUE.equals(appUser.getIsVerified())) {
+            throw new AccountAlreadyVerifiedException("Account is already verified!");
+        }
 
-        //delete OTP
-        otpService.deleteOtp(email);
+        if(otpService.isCooldown(email)){
+            throw new RuntimeException("Please wait for 5 minutes before requesting new OTP.");
+        }
+
+        // generate new OTP
+        String otp = otpService.getOtp(email);
+
+        // save to Redis
+        otpService.saveOtp(email, otp);
+
+        // set Cooldown
+        otpService.setCooldown(email);
+
+        // send email
+        emailService.sendOtp(email, otp);
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        System.out.println("SPRING SEARCHING EMAIL: " + email);
+//        System.out.println("SPRING SEARCHING EMAIL: " + email);
 
         AppUser appUser = appUserRepository.findUserByEmail(email);
 
@@ -99,9 +145,9 @@ public class AppUserServiceImpls implements AppUserService {
          throw new EmailNotFound("Email not found");
         }
 
-        System.out.println("DB EMAIL: " + appUser.getEmail());
-        System.out.println("DB PASSWORD: " + appUser.getPassword());
-        System.out.println("IS VERIFIED: " + appUser.getIsVerified());
+//        System.out.println("DB EMAIL: " + appUser.getEmail());
+//        System.out.println("DB PASSWORD: " + appUser.getPassword());
+//        System.out.println("IS VERIFIED: " + appUser.getIsVerified());
 
         if(!appUser.getIsVerified()) {
             throw new RuntimeException("User is not verified");

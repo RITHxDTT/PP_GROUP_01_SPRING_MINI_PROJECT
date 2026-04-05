@@ -38,6 +38,6 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public void setCooldown(String email) {
-        stringRedisTemplate.opsForValue().set(COOLDOWN_KEY + email, String.valueOf(System.currentTimeMillis()));
+        stringRedisTemplate.opsForValue().set(COOLDOWN_KEY + email, "true", Duration.ofSeconds(30));
     }
 }

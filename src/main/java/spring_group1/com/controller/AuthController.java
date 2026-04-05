@@ -12,8 +12,11 @@ import spring_group1.com.jwt.JwtUtils;
 import spring_group1.com.model.AppUser;
 import spring_group1.com.model.request.AppUserRequest;
 import spring_group1.com.model.request.LoginRequest;
+import spring_group1.com.model.request.ResendRequest;
 import spring_group1.com.model.request.VerifyRequest;
 import spring_group1.com.model.response.ApiResponse;
+import spring_group1.com.model.response.AppUserResponse;
+import spring_group1.com.model.response.AuthResponse;
 import spring_group1.com.services.AppUserService;
 import spring_group1.com.services.EmailService;
 
@@ -30,11 +33,12 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
 
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
 
-        System.out.println("Login Email: " + loginRequest.getEmail());
-        System.out.println("Login Password: " + loginRequest.getPassword());
+//        System.out.println("Login Email: " + loginRequest.getEmail());
+//        System.out.println("Login Password: " + loginRequest.getPassword());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail(),
@@ -43,26 +47,33 @@ public class AuthController {
 
         String token = jwtUtils.generateToken(loginRequest.getEmail());
 
+        AuthResponse authResponse = AuthResponse.builder()
+                .token(token)
+                .tokenType("Bearer")
+                .build();
+
         ApiResponse apiResponse = ApiResponse.builder()
                 .success(true)
+                .title("Login Success")
                 .message("login successful")
                 .status(HttpStatus.OK)
                 .timestamp(LocalDate.now())
-                .payload(token).build();
+                .payload(authResponse)
+                .build();
 
         return ResponseEntity.ok(apiResponse);
-
     }
 
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody AppUserRequest appUserRequest) {
-        AppUser appUser = appUserService.createAppUser(appUserRequest);
+        AppUserResponse appUser = appUserService.createAppUser(appUserRequest);
 
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
+                .title("Registration successful")
                 .message("Successfully register!")
                 .timestamp(LocalDate.now())
                 .payload(appUser)
@@ -78,7 +89,24 @@ public class AuthController {
 
         ApiResponse response = ApiResponse.builder()
                 .success(true)
-                .message("Account verified successfully")
+                .title("Verification successful")
+                .message("Account verified successfully!")
+                .status(HttpStatus.OK)
+                .timestamp(LocalDate.now())
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/resend")
+    public ResponseEntity<ApiResponse> resend(@Valid @RequestBody ResendRequest request) {
+
+        appUserService.resendOtp(request.getEmail());
+
+        ApiResponse response = ApiResponse.builder()
+                .success(true)
+                .title(" OTP Resend successful")
+                .message("OTP resend successfully, Please check your email.")
                 .status(HttpStatus.OK)
                 .timestamp(LocalDate.now())
                 .build();

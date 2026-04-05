@@ -1,0 +1,8 @@
+package spring_group1.com.exception;
+
+public class AccountAlreadyVerifiedException extends RuntimeException {
+
+    public AccountAlreadyVerifiedException(String message) {
+        super(message);
+    }
+}
