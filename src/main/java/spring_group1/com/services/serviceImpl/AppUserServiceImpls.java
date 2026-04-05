@@ -12,7 +12,6 @@ import spring_group1.com.exception.DuplicateEmailException;
 import spring_group1.com.exception.EmailNotFound;
 import spring_group1.com.exception.NotFoundExceptionHandler;
 import spring_group1.com.model.AppUser;
-import spring_group1.com.model.Habit;
 import spring_group1.com.model.request.ProfileRequest;
 import spring_group1.com.model.response.AppUserResponse;
 import spring_group1.com.model.response.ProfileResponse;
@@ -195,7 +194,7 @@ public class AppUserServiceImpls implements AppUserService {
     }
 
     @Override
-    public  ProfileResponse updateProfile(ProfileRequest profileRequest) {
+    public ProfileResponse updateProfile(ProfileRequest profileRequest) {
         AppUser getCurrentUser = (AppUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -206,10 +205,17 @@ public class AppUserServiceImpls implements AppUserService {
         AppUser existingUser = appUserRepository.getUserId(currentUserId);
 
         if (existingUser == null) {
-            throw new NotFoundExceptionHandler("Habit not found!");
+            throw new NotFoundExceptionHandler("Profile n not found!");
         }
+        ProfileRequest profileRequest1 = new ProfileRequest();
+        profileRequest1.setUsername(existingUser.getUsername());
+        profileRequest1.setProfileImageUrl(existingUser.getProfileImg());
 
-        return appUserRepository.updateProfile(profileRequest,currentUserId);
+        ProfileResponse profileRequest2 = new ProfileResponse();
+        profileRequest2.setUsername(profileRequest1.getUsername());
+        profileRequest2.setProfileImageUrl(profileRequest.getProfileImageUrl());
+
+        return profileRequest2;
     }
 
     private  ProfileResponse mapToProfileResponse(AppUser user) {
