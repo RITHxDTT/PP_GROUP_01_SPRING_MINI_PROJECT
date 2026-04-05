@@ -20,7 +20,7 @@ public class ApiRespone <T> {
     private String title;
     private String message;
     private HttpStatus status;
-    private LocalDateTime timestamp;
+    private LocalDate timestamp;
     private Boolean success;
     private T payload;
 }

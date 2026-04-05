@@ -59,7 +59,7 @@ public class AuthController {
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Success register ! ")
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDate.now())
                 .payload(appUser)
                 .build();
 

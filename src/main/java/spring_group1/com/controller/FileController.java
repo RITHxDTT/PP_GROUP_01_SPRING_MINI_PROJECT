@@ -14,6 +14,7 @@ import spring_group1.com.services.FileService;
 
 import java.io.IOException;
 import java.net.URLConnection;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -42,7 +43,7 @@ public class FileController {
                         .message("File uploaded successfully to RustFS")
                         .status(HttpStatus.CREATED)
                         .payload(fileResponse)
-                        .timestamp(LocalDateTime.now())
+                        .timestamp(LocalDate.now())
                         .build()
         );
     }
