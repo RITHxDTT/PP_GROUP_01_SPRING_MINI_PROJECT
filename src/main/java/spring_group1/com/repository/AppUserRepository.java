@@ -2,6 +2,7 @@ package spring_group1.com.repository;
 
 import org.apache.ibatis.annotations.*;
 import spring_group1.com.model.AppUser;
+import spring_group1.com.model.response.ProfileResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -12,7 +13,11 @@ public interface AppUserRepository {
     @Results(id = "userMapper", value = {
             @Result(property = "userId", column = "app_user_id"),
             @Result(property = "profileImg", column = "profile_image"),
-            @Result(property = "userName", column = "username")
+            @Result(property = "userName", column = "username"),
+            @Result(property = "isVerified", column = "is_verified")
+
+
+
     })
     @Select("""
         SELECT * FROM app_users
@@ -40,4 +45,19 @@ public interface AppUserRepository {
         values(#{req.userName}, #{req.email}, #{req.password}, #{req.profileImg}) returning*
         """)
     AppUser createAppUser(@Param("req") AppUser appUserRequest);
+
+
+    @Select("""
+        DELETE FROM app_users 
+        WHERE email = #{email};
+        """)
+    ProfileResponse deleteProfile(String email);
+
+    @Update("""
+            UPDATE app_users 
+            SET username = #{userName}, profile_image = #{profileImg}
+            WHERE email = #{email}
+            RETURNING *;
+            """)
+    void updateProfile(AppUser user);
 }

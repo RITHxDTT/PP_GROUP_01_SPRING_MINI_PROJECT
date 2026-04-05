@@ -42,7 +42,15 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return email;
+    }
+
+    public Boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
 
