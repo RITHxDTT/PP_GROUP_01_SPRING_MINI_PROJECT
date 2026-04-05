@@ -1,13 +1,16 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   redis:
     image: redis:7
     container_name: redis
-  rustfs:
-    image: rustfs/rustfs:latest
     ports:
       - "6379:6379"
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs
+    ports:
       - "9000:9000"
       - "9001:9001"
     environment:

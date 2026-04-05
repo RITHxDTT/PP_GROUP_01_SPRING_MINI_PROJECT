@@ -38,8 +38,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
 
-//        System.out.println("Login Email: " + loginRequest.getEmail());
-//        System.out.println("Login Password: " + loginRequest.getPassword());
+        System.out.println("Login Email: " + loginRequest.getEmail());
+        System.out.println("Login Password: " + loginRequest.getPassword());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail(),

@@ -10,11 +10,15 @@ import spring_group1.com.exception.DuplicateEmailException;
 
 import spring_group1.com.exception.EmailNotFound;
 import spring_group1.com.model.AppUser;
+import spring_group1.com.model.request.ProfileRequest;
 import spring_group1.com.model.response.AppUserResponse;
+import spring_group1.com.model.response.ProfileResponse;
 import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.model.request.AppUserRequest;
 
 import spring_group1.com.services.AppUserService;
+import spring_group1.com.services.EmailService;
+import spring_group1.com.services.OtpService;
 import spring_group1.com.utils.OtpUtil;
 
 
@@ -138,7 +142,7 @@ public class AppUserServiceImpls implements AppUserService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-//        System.out.println("SPRING SEARCHING EMAIL: " + email);
+        System.out.println("SPRING SEARCHING EMAIL: " + email);
 
         AppUser appUser = appUserRepository.findUserByEmail(email);
 
@@ -146,9 +150,9 @@ public class AppUserServiceImpls implements AppUserService {
          throw new EmailNotFound("Email not found");
         }
 
-//        System.out.println("DB EMAIL: " + appUser.getEmail());
-//        System.out.println("DB PASSWORD: " + appUser.getPassword());
-//        System.out.println("IS VERIFIED: " + appUser.getIsVerified());
+        System.out.println("DB EMAIL: " + appUser.getEmail());
+        System.out.println("DB PASSWORD: " + appUser.getPassword());
+        System.out.println("IS VERIFIED: " + appUser.getIsVerified());
 
         if(!appUser.getIsVerified()) {
             throw new RuntimeException("User is not verified");

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import spring_group1.com.model.FileResponse;
 //import spring_group1.com.response.ApiRespone;
-import spring_group1.com.model.response.ApiRespone;
+import spring_group1.com.model.response.ApiResponse;
 import spring_group1.com.services.FileService;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class FileController {
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiRespone.builder()
+                ApiResponse.builder()
                         .success(true)
                         .message("File uploaded successfully to RustFS")
                         .status(HttpStatus.CREATED)
