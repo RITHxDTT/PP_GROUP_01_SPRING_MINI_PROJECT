@@ -13,9 +13,6 @@ public interface AppUserRepository {
             @Result(property = "userId", column = "app_user_id"),
             @Result(property = "profileImg", column = "profile_image"),
             @Result(property = "userName", column = "username")
-
-
-
     })
     @Select("""
         SELECT * FROM app_users
@@ -32,12 +29,10 @@ public interface AppUserRepository {
 
     @ResultMap("userMapper")
     @Select("""
-        SELECT role_name FROM roles r
-        INNER JOIN user_role ur 
-        ON r.role_id = ur.role_id
-        WHERE user_id = #{userId}
-    """)
-    List<String> getAllRolesByUserId(Integer userId);
+         SELECT * FROM app_users
+       WHERE app_user_id = #{userId}
+   """)
+    AppUser getUserId (Integer userId);
 
     @ResultMap("userMapper")
     @Select("""
