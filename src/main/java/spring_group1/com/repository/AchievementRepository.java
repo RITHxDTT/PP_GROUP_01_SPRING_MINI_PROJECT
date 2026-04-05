@@ -1,10 +1,7 @@
 package spring_group1.com.repository;
 
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import spring_group1.com.model.Achievements;
 
 
@@ -29,5 +26,12 @@ public interface AchievementRepository {
            OFFSET (#{page}-1) * #{size};
            """)
     List<Achievements> getAchievements(Integer page, Integer size);
+
+
+    @ResultMap( "achievementMapper")
+
+
+    
+    List<Achievements> getAllAchievementsForUser(Integer page, Integer size);
 }
 

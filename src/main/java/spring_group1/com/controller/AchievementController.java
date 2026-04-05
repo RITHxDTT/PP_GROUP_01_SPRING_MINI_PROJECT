@@ -5,17 +5,20 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import spring_group1.com.model.Achievements;
-import spring_group1.com.response.ApiRespone;
+import spring_group1.com.model.response.ApiRespone;
 import spring_group1.com.services.AchievementService;
 import spring_group1.com.services.AchievementService;
 
@@ -44,4 +47,24 @@ public class AchievementController {
 
         return ResponseEntity.status(HttpStatus.OK).body(apiRespone);
     }
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/app-user")
+    public ResponseEntity<?> getAllAchievementsForUser(@RequestParam @Positive(message = "Page can't be negative and zero") Integer page,
+                                                       @RequestParam @Positive(message = "size can't be negative and zero") Integer size,
+                                                       Long UserId
+                                                       ,Authentication authentication){
+        @Nullable Object getAllUser = authentication.getPrincipal();
+        System.out.println(getAllUser);
+        List<Achievements> achievementsForUser = achievementService.getAllAchievementForUser(page,size);
+        ApiRespone apiRespone = ApiRespone.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .message("Achievements for the specified App User retrieved successfully!")
+                .payload(achievementsForUser)
+                .timestamp(LocalDate.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(apiRespone);
+    }
+
+
 }
