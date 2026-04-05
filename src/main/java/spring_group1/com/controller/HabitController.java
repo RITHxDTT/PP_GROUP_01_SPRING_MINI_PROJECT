@@ -69,12 +69,13 @@ public class HabitController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{habit-id}")
-    public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestParam HabitRequest habitRequest){
+    public ResponseEntity<ApiRespone<Habit>> updateHabit(@PathVariable("habit-id") Integer habitId, @RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiRespone.<Habit>builder()
                         .success(true)
-                        .message("Habit ID "+habitId+" created successfully!")
+                        .message("Habit ID "+habitId+" updated  successfully!")
                         .status(HttpStatus.OK)
+                        .timestamp(LocalDate.now())
                         .payload(habitService.updateHabit(habitId, habitRequest))
                         .build()
         );
@@ -90,7 +91,7 @@ public class HabitController {
                         .message("Habit ID " + habitId + " deleted successfully!")
                         .timestamp(LocalDate.now())
                         .status(HttpStatus.OK)
-                        .payload(habitService.getHabitById(habitId))
+                        .payload(habitService.deleteHabit(habitId))
                         .build()
         );
 

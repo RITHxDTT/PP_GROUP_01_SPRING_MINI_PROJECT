@@ -14,5 +14,5 @@ public class HabitRequest {
     @NotBlank(message = "description cannot be blank or empty")
     private String description;
     private String frequency;
-    private Integer appUserId;
+
 }

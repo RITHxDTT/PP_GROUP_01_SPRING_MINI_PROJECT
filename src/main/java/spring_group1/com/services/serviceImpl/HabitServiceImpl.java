@@ -3,7 +3,6 @@ package spring_group1.com.services.serviceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import spring_group1.com.exception.DuplicateName;
 import spring_group1.com.exception.NotFoundExceptionHandler;
 import spring_group1.com.model.AppUser;
 import spring_group1.com.model.Habit;
@@ -41,32 +40,60 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public Habit createhabit(HabitRequest habitRequest) {
-        List<Habit> habits = habitRepository.getAllHabit();
+        AppUser getCurrentUser = (AppUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        return habitRepository.createNewHabit(habitRequest);
+        Integer getCurrentId = getCurrentUser.getUserId();
+
+        return habitRepository.createNewHabit(habitRequest, getCurrentId);
+    }
+
+
+    @Override
+    public Habit updateHabit(Integer habitID, HabitRequest habitRequest ) {
+        AppUser getCurrentUser = (AppUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Integer currentUserId = getCurrentUser.getUserId();
+
+        Habit existingHabit = habitRepository.findHabitById(habitID);
+
+
+        if (existingHabit == null) {
+            throw new NotFoundExceptionHandler("Habit not found!");
+        }
+        if (existingHabit.getAppUserId() == null || !existingHabit.getAppUserId().equals(currentUserId)) {
+            throw new NotFoundExceptionHandler("You don't have permission to update this habit!");
+        }
+
+        return habitRepository.updateNewHabit(currentUserId, habitRequest, habitID);
     }
 
     @Override
-    public Habit updateHabit(Integer habitId, HabitRequest habitRequest) {
-        if (habitRepository.findHabitById(habitId) == null) {
-            throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
-        }
-        List<Habit> habits = habitRepository.getAllHabit();
+    public Habit deleteHabit(Integer habitId) {
+        AppUser getCurrentUser = (AppUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
+        Integer currentUserId = getCurrentUser.getUserId();
 
+        Habit existingHabit = habitRepository.findHabitById(habitId);
 
-
-        return habitRepository.updateNewHabit(habitId, habitRequest);
-    }
-
-    @Override
-    public void deleteHabit(Integer habitId) {
-
-        if (habitRepository.findHabitById(habitId) == null) {
-            throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
+        if (existingHabit == null) {
+            throw new NotFoundExceptionHandler("Habit not found!");
         }
 
-        habitRepository.deleteHabitById(habitId);
 
+        if (existingHabit.getAppUserId() == null || !existingHabit.getAppUserId().equals(currentUserId)) {
+            throw new NotFoundExceptionHandler("You don't have permission to delete this habit!");
+        }
+
+        habitRepository.deleteHabitById(habitId, currentUserId);
+        return existingHabit;
     }
 }

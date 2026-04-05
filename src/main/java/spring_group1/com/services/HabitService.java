@@ -14,8 +14,8 @@ public interface HabitService {
 
     Habit createhabit(HabitRequest habitRequest);
 
-    Habit updateHabit(Integer habitId, HabitRequest habitRequest);
+    Habit updateHabit(Integer habitID,  HabitRequest habitRequest);
 
-    void deleteHabit(Integer habitId);
+    Habit deleteHabit(Integer habitId);
 
 }

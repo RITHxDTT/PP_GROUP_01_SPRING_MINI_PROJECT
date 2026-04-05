@@ -13,6 +13,7 @@ public interface HabitRepository {
     @Results(id = "habitMapper", value = {
             @Result(property = "habitId", column = "habit_id"),
             @Result(property = "isActive", column = "is_active"),
+            @Result(property = "appUserId", column = "app_user_id"),
             @Result(property = "appUserResponse", column = "app_user_id",
                     one = @One(select = "spring_group1.com.repository.AppUserRepository.getUserId")
             )
@@ -35,25 +36,25 @@ public interface HabitRepository {
     @ResultMap("habitMapper")
     @Select("""
     INSERT INTO habits (title, description, frequency, app_user_id)
-    VALUES (#{title}, #{description},#{frequency}, #{appUserId})
+    VALUES (#{req.title}, #{req.description},#{req.frequency}, #{userID})
         RETURNING *
    """)
-    Habit createNewHabit(HabitRequest habitRequest);
+    Habit createNewHabit(@Param("req") HabitRequest habitRequest, @Param("userID" ) Integer userID);
 
     @ResultMap("habitMapper")
     @Select("""
     UPDATE habits
-    SET title = #{title}, description = #{description}, frequency = #{frequency}
-    WHERE habit_id = #{habitId}
+    SET title = #{req.title}, description = #{req.description}, frequency = #{req.frequency}
+    WHERE habit_id = #{hid} and app_user_id = #{userId} returning * 
    """)
-    Habit updateNewHabit(Integer habitId, HabitRequest habitRequest);
+    Habit updateNewHabit(@Param("userId") Integer userId,@Param("req") HabitRequest habitRequest, @Param("hid") Integer habitId );
 
     @ResultMap("habitMapper")
     @Select("""
     DELETE FROM habits
-    WHERE habit_id = #{habitId}
-    """)
-    void deleteHabitById(Integer habitId);
+    WHERE habit_id = #{habitId} AND app_user_id = #{userId} 
+""")
+    void deleteHabitById(@Param("habitId") Integer habitId, @Param("userId") Integer userId);
 
     @ResultMap("habitMapper")
     @Select("""

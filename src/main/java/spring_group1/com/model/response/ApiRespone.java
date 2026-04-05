@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class ApiRespone <T> {
-    private String title;
     private String message;
     private HttpStatus status;
     private LocalDate timestamp;
