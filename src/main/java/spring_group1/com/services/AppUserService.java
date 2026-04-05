@@ -24,7 +24,7 @@ public interface AppUserService extends UserDetailsService {
 
     ProfileResponse deleteProfile(String email);
 
-    ProfileResponse updateProfile(String email, ProfileRequest profileRequest);
+    ProfileResponse updateProfile( ProfileRequest profileRequest);
 
 
 }

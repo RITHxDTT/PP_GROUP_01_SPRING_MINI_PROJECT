@@ -1,6 +1,7 @@
 package spring_group1.com.services.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +10,9 @@ import spring_group1.com.exception.AccountAlreadyVerifiedException;
 import spring_group1.com.exception.DuplicateEmailException;
 
 import spring_group1.com.exception.EmailNotFound;
+import spring_group1.com.exception.NotFoundExceptionHandler;
 import spring_group1.com.model.AppUser;
+import spring_group1.com.model.Habit;
 import spring_group1.com.model.request.ProfileRequest;
 import spring_group1.com.model.response.AppUserResponse;
 import spring_group1.com.model.response.ProfileResponse;
@@ -192,14 +195,21 @@ public class AppUserServiceImpls implements AppUserService {
     }
 
     @Override
-    public  ProfileResponse updateProfile(String email,  ProfileRequest profileRequest) {
-        AppUser user = appUserRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new EmailNotFound("User not found");
-        }
-        appUserRepository.updateProfile(user);
+    public  ProfileResponse updateProfile(ProfileRequest profileRequest) {
+        AppUser getCurrentUser = (AppUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        return mapToProfileResponse(user);
+        Integer currentUserId = getCurrentUser.getUserId();
+
+        AppUser existingUser = appUserRepository.getUserId(currentUserId);
+
+        if (existingUser == null) {
+            throw new NotFoundExceptionHandler("Habit not found!");
+        }
+
+        return appUserRepository.updateProfile(profileRequest,currentUserId);
     }
 
     private  ProfileResponse mapToProfileResponse(AppUser user) {

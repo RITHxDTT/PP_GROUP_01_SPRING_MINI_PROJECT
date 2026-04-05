@@ -55,10 +55,10 @@ public interface AppUserRepository {
     @Update("""
             UPDATE app_users 
             SET username = #{userName}, profile_image = #{profileImg}
-            WHERE email = #{email}
+            WHERE app_user_id = #{userId}
             RETURNING *;
             """)
-    void updateProfile(AppUser user);
+    void updateProfile(@Param("res") AppUser user, @Param("userId")  Integer userId);
 
     // verify user
     @Update("""
