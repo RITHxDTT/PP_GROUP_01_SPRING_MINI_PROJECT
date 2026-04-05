@@ -29,7 +29,7 @@ public class ProfileController {
 
         ApiRespone<ProfileResponse> response = ApiRespone.<ProfileResponse>builder()
                 .success(true)
-                .message("get profile successfully")
+                .message("get successfully")
                 .status(HttpStatus.OK)
                 .payload(profile)
                 .timestamp(LocalDateTime.now())

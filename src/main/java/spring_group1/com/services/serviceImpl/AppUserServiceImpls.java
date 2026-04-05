@@ -74,20 +74,20 @@ public class AppUserServiceImpls implements AppUserService {
 
     @Override
     public ProfileResponse getUserProfile(String email) {
-        AppUser user = appUserRepository.findUserByEmail(email);
-        if (user == null) {
+        AppUser appUser = appUserRepository.findUserByEmail(email);
+        if (appUser == null) {
             throw new EmailNotFound("User not found");
         }
 
         return ProfileResponse.builder()
-                .appUserId(String.valueOf(user.getUserId()))
-                .username(user.getUserName())
-                .email(user.getEmail())
-                .level(user.getLevel())
-                .xp(user.getXp())
-                .profileImageUrl(user.getProfileImg())
-                .isVerified(user.getIsVerified())
-                .createdAt(user.getTimestamp())
+                .appUserId(String.valueOf(appUser.getUserId()))
+                .username(appUser.getUserName())
+                .email(appUser.getEmail())
+                .level(appUser.getLevel())
+                .xp(appUser.getXp())
+                .profileImageUrl(appUser.getProfileImg())
+                .isVerified(appUser.getIsVerified())
+                .createdAt(appUser.getTimestamp())
                 .build();
     }
 
@@ -97,9 +97,7 @@ public class AppUserServiceImpls implements AppUserService {
         if (appUser == null){
             throw new EmailNotFound("User not found");
         }
-
         return  appUserRepository.deleteProfile(email);
-
     }
 
 

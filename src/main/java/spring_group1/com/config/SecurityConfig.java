@@ -42,7 +42,6 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .anyRequest().authenticated()
-//                        .requestMatchers("/api/v1/profile").permitAll()
                 )
 
 
@@ -65,7 +64,4 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
-
-
-
 }
