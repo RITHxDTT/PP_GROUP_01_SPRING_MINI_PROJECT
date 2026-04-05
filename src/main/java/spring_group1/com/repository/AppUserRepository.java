@@ -13,15 +13,11 @@ public interface AppUserRepository {
     @Results(id = "userMapper", value = {
             @Result(property = "userId", column = "app_user_id"),
             @Result(property = "profileImg", column = "profile_image"),
-<<<<<<< HEAD
-            @Result(property = "userName", column = "username")
-=======
             @Result(property = "userName", column = "username"),
             @Result(property = "isVerified", column = "is_verified")
 
 
 
->>>>>>> c46cdab (test)
     })
     @Select("""
         SELECT * FROM app_users
@@ -38,10 +34,12 @@ public interface AppUserRepository {
 
     @ResultMap("userMapper")
     @Select("""
-         SELECT * FROM app_users
-       WHERE app_user_id = #{userId}
-   """)
-    AppUser getUserId (Integer userId);
+        SELECT role_name FROM roles r
+        INNER JOIN user_role ur 
+        ON r.role_id = ur.role_id
+        WHERE user_id = #{userId}
+    """)
+    List<String> getAllRolesByUserId(Integer userId);
 
     @ResultMap("userMapper")
     @Select("""
@@ -61,6 +59,7 @@ public interface AppUserRepository {
             UPDATE app_users 
             SET username = #{userName}, profile_image = #{profileImg}
             WHERE email = #{email}
+            RETURNING *;
             """)
     void updateProfile(AppUser user);
 }

@@ -5,7 +5,7 @@ import spring_group1.com.model.AppUser;
 
 public class SecurityUtils {
     public static String getCurrentUserEmail() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public static AppUser getCurrentUser() {
