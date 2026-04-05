@@ -1,14 +1,14 @@
 # Gamified Habit Tracker
 
-## ⭐ Setup Instructions
+##  Setup Instructions
 
-### 1️⃣ Clone the Project
+### 1️ Clone the Project
 ```bash
 git clone <repo-url>
 cd Mini Project
 ```
 
-### 2️⃣ Configure Database
+### 2️ Configure Database
 
 Create the database in PostgreSQL:
 ```sql
@@ -22,7 +22,7 @@ spring.datasource.username=group1
 spring.datasource.password=123
 ```
 
-### 3️⃣ Setup Environment Variables
+### 3️ Setup Environment Variables
 
 In IntelliJ → **Run** → **Edit Configurations** → **Environment Variables**
 
@@ -33,7 +33,7 @@ S3_ACCESS_KEY=admin
 S3_SECRET_KEY=password
 S3_BUCKET=habit-bucket
 
-### 4️⃣ Start Docker Services
+### 4️ Start Docker Services
 
 Make sure you're inside the project folder, then run:
 ```bash
@@ -45,12 +45,12 @@ This will start:
 - **Redis** → `localhost:6379`
 - **RustFS** → `localhost:9000` (API), `localhost:9001` (UI)
 
-### 5️⃣ Run the Application
+### 5️ Run the Application
 ```bash
 mvn spring-boot:run
 ```
 
-### 6️⃣ Access API
+### 6️ Access API
 
 **Swagger UI:**
 http://localhost:8080/swagger-ui/index.html
