@@ -44,8 +44,14 @@ public class JwtUtils {
         return claimsTResolver.apply(extractAllClaims(token));
     }
 
+//    public String extractEmail(String token) {
+//        return extractClaim(token, Claims::getSubject);
+//    }
+
     public String extractEmail(String token) {
-        return extractClaim(token, Claims::getSubject);
+        String email = extractClaim(token, Claims::getSubject);
+        System.out.println("ExtractEmail from token: " + email); // Debug
+        return email;
     }
 
     public Date extractExpiration(String token) {

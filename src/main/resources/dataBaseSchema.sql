@@ -1,4 +1,4 @@
-CREATE DATABASE gamifiedHabitTracker;
+CREATE DATABASE "gamifiedHabitTracker";
 
 -- 1. app_users
 CREATE TABLE app_users (

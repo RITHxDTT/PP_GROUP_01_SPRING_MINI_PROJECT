@@ -4,5 +4,17 @@ services:
   redis:
     image: redis:7
     container_name: redis
+  rustfs:
+    image: rustfs/rustfs:latest
     ports:
       - "6379:6379"
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      RUSTFS_ACCESS_KEY: admin
+      RUSTFS_SECRET_KEY: password
+    volumes:
+      - rustfs-data:/data
+
+volumes:
+  rustfs-data:

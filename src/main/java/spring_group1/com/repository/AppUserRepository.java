@@ -2,6 +2,7 @@ package spring_group1.com.repository;
 
 import org.apache.ibatis.annotations.*;
 import spring_group1.com.model.AppUser;
+import spring_group1.com.model.response.ProfileResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -32,12 +33,10 @@ public interface AppUserRepository {
 
     @ResultMap("userMapper")
     @Select("""
-                SELECT role_name FROM roles r
-                INNER JOIN user_role ur 
-                ON r.role_id = ur.role_id
-                WHERE user_id = #{userId}
+                SELECT * FROM app_users
+                WHERE app_user_id = #{userId}
             """)
-    List<String> getAllRolesByUserId(Integer userId);
+    AppUser getUserId (Integer userId);
 
     @ResultMap("userMapper")
     @Select("""
@@ -46,6 +45,20 @@ public interface AppUserRepository {
             """)
     AppUser createAppUser(@Param("req") AppUser appUserRequest);
 
+
+    @Select("""
+        DELETE FROM app_users 
+        WHERE email = #{email};
+        """)
+    ProfileResponse deleteProfile(String email);
+
+    @Update("""
+            UPDATE app_users 
+            SET username = #{userName}, profile_image = #{profileImg}
+            WHERE email = #{email}
+            RETURNING *;
+            """)
+    void updateProfile(AppUser user);
 
     // verify user
     @Update("""
