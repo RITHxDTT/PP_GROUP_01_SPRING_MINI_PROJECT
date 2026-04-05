@@ -17,7 +17,7 @@ public class LoginRequest {
             regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$",
             message = "Email format is invalid"
     )
-    @Schema(defaultValue = "@gmail.com")
+    @Schema(defaultValue = "rith@gmail.com")
     private String email;
 
     @Size(min = 3, message = "Password must be at least 3 characters")

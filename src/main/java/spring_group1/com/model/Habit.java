@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Habit {
     private Integer habitId;
     private Integer appUserId;
+    private AppUser appUserResponse;
     private String title;
     private String description;
     private String frequency;
