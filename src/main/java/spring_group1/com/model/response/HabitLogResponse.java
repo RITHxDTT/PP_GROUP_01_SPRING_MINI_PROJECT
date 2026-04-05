@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import spring_group1.com.model.HabitLogStatus;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -14,9 +14,9 @@ import java.util.UUID;
 @Builder
 public class HabitLogResponse {
 
-    private UUID habitLogId;
+    private Integer habitLogId;
     private LocalDate logDate;
-    private HabitLogResponse status;
+    private HabitLogStatus status;
     private Integer xpEarned;
     private Integer habitId;
 

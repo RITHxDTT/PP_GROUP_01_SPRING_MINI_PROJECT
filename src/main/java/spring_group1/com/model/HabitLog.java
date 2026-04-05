@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class HabitLog {
 
-    private UUID habitLogId;
+    private Integer habitLogId;
     private LocalDate logDate;
     private HabitLogStatus status;
     private Integer xpEarned;

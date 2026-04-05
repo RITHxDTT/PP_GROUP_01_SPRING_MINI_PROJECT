@@ -12,5 +12,5 @@ public interface HabitLogService {
     HabitLogResponse create(HabitLogRequest request);
 
 
-    List<HabitLogResponse> getLogsByHabitId(Integer habitId);
+    List<HabitLogResponse> getLogsByHabitId(Integer habitId, Integer page, Integer size);
 }
