@@ -54,4 +54,18 @@ public interface AppUserRepository {
                 WHERE email = #{email}
             """)
     void updateUserVerification(String email);
+
+    @ResultMap("userMapper")
+    @Select("""
+                SELECT * FROM app_users
+                WHERE app_user_id = #{userId}
+            """)
+    AppUser findUserById(Integer userId);
+
+    @Update("""
+                UPDATE app_users
+                SET xp = #{xp}, level = #{level}
+                WHERE app_user_id = #{userId}
+            """)
+    void updateXpAndLevel(AppUser user);
 }

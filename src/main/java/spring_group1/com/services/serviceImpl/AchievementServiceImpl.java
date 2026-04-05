@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring_group1.com.model.Achievements;
+import spring_group1.com.model.AppUser;
 import spring_group1.com.repository.AchievementRepository;
 import spring_group1.com.services.AchievementService;
 
@@ -24,4 +25,29 @@ public class AchievementServiceImpl implements AchievementService {
     public List<Achievements> getAllAchievementForUser(Integer userId, Integer page, Integer size) {
         return achievementRepository.getAllAchievementsForUser(userId, page, size);
     }
+
+    public void checkAndUnlock(AppUser user) {
+
+        List<Achievements> achievements = achievementRepository.getAchievements(1, 100);
+
+        for (Achievements a : achievements) {
+
+            if (user.getXp() >= a.getXpRequired()) {
+
+                boolean exists = achievementRepository.existsUserAchievement(
+                        user.getUserId(),
+                        a.getAchievementId()
+                );
+
+                if (!exists) {
+                    achievementRepository.unlockAchievement(
+                            user.getUserId(),
+                            a.getAchievementId()
+                    );
+                }
+            }
+        }
+    }
+
+
 }

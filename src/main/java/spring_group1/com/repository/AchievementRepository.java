@@ -34,5 +34,18 @@ public interface AchievementRepository {
                 OFFSET (#{page}-1) * #{size}
             """)
     List<Achievements> getAllAchievementsForUser(Integer userId, Integer page, Integer size);
+
+    @Select("""
+                SELECT COUNT(*) > 0
+                FROM app_user_achievements
+                WHERE user_id = #{userId} AND achievement_id = #{achievementId}
+            """)
+    boolean existsUserAchievement(Integer userId, Integer achievementId);
+
+    @Insert("""
+                INSERT INTO app_user_achievements(user_id, achievement_id)
+                VALUES(#{userId}, #{achievementId})
+            """)
+    void unlockAchievement(Integer userId, Integer achievementId);
 }
 

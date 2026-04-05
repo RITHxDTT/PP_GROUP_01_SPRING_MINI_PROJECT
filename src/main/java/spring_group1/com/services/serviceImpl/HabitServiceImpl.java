@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring_group1.com.exception.DuplicateName;
 import spring_group1.com.exception.NotFoundExceptionHandler;
+import spring_group1.com.model.AppUser;
 import spring_group1.com.model.Habit;
 import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.repository.HabitRepository;
@@ -43,9 +44,14 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public Habit createhabit(HabitRequest habitRequest) {
-        List<Habit> habits = habitRepository.getAllHabit();
 
-        return habitRepository.createNewHabit(habitRequest);
+        Habit habit = habitRepository.createNewHabit(habitRequest);
+
+        if (habitRequest.getAppUserId() != null) {
+            completeHabit(habitRequest.getAppUserId());
+        }
+
+        return habit;
     }
 
     @Override
@@ -77,5 +83,20 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public void completeHabit(Integer userId) {
 
+        AppUser user = appUserRepository.findUserById(userId);
+
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        int newXp = user.getXp() + 10;
+        user.setXp(newXp);
+
+        int level = newXp / 100;
+        user.setLevel(level);
+
+        appUserRepository.updateXpAndLevel(user);
+
+        achievementService.checkAndUnlock(user);
     }
 }

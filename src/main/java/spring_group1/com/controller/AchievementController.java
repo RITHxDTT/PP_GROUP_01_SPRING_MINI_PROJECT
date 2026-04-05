@@ -15,8 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spring_group1.com.model.Achievements;
-import spring_group1.com.model.response.ApiRespone;
-import spring_group1.com.services.AchievementService;
+
+import spring_group1.com.model.response.ApiResponse;
 import spring_group1.com.services.AchievementService;
 
 import java.time.Instant;
@@ -35,7 +35,7 @@ public class AchievementController {
     public ResponseEntity<?> getAllAchievements(@RequestParam @Positive(message = "Page can't be negative and zero") Integer page, @RequestParam @Positive(message = "size can't be negative and zero") Integer size){
         List<Achievements> achievements = achievementService.getAllAchievements(page,size);
 
-        ApiRespone apiRespone = ApiRespone.builder()
+        ApiResponse apiRespone = ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Get All achievements successfully")
@@ -57,7 +57,7 @@ public class AchievementController {
         List<Achievements> achievements =
                 achievementService.getAllAchievementForUser(userId, page, size);
 
-        ApiRespone response = ApiRespone.builder()
+        ApiResponse response = ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Achievements for user retrieved successfully!")
