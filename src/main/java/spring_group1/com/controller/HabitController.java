@@ -1,5 +1,6 @@
 package spring_group1.com.controller;
 
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class HabitController {
     private final HabitService habitService;
 
     @GetMapping
-    public ResponseEntity<ApiRespone<List<Habit>>> getAllHabit(
+    public ResponseEntity<ApiResponse<List<Habit>>> getAllHabit(
             @RequestParam Integer page,
             @RequestParam Integer size
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                ApiRespone.<List<Habit>>builder()
+                ApiResponse.<List<Habit>>builder()
                         .success(true)
                         .message("Fetched all habits successfully!")
                         .status(HttpStatus.OK)
@@ -34,9 +35,9 @@ public class HabitController {
     }
 
     @GetMapping("/{habit-id}")
-    public ResponseEntity<ApiRespone<Habit>> getHabitById(@PathVariable("habit-id") Integer habitId){
+    public ResponseEntity<ApiResponse<Habit>> getHabitById(@PathVariable("habit-id") Integer habitId){
         return ResponseEntity.status(HttpStatus.OK).body(
-                ApiRespone.<Habit>builder()
+                ApiResponse.<Habit>builder()
                         .success(true)
                         .message("Habit ID "+habitId+" fetched successfully!")
                         .status(HttpStatus.OK)
@@ -46,9 +47,9 @@ public class HabitController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiRespone<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
+    public ResponseEntity<ApiResponse<Habit>> createHabit(@RequestBody HabitRequest habitRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
-                ApiRespone.<Habit>builder()
+                ApiResponse.<Habit>builder()
                         .success(true)
                         .message("Habit "+habitRequest.getTitle()+" created successfully!")
                         .status(HttpStatus.CREATED)
@@ -92,7 +93,4 @@ public class HabitController {
             );
         }
     }
-
-
-
 }

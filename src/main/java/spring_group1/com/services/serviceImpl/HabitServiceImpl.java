@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import spring_group1.com.exception.DuplicateName;
 import spring_group1.com.exception.NotFoundExceptionHandler;
 import spring_group1.com.model.Habit;
+import spring_group1.com.repository.AppUserRepository;
 import spring_group1.com.repository.HabitRepository;
 import spring_group1.com.request.HabitRequest;
+import spring_group1.com.services.AchievementService;
 import spring_group1.com.services.HabitService;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 public class HabitServiceImpl implements HabitService {
 
     private final HabitRepository habitRepository;
+    private final AppUserRepository appUserRepository;
+    private final AchievementService achievementService;
 
     @Override
     public List<Habit> getAllHabit(Integer page, Integer size) {
@@ -68,5 +72,10 @@ public class HabitServiceImpl implements HabitService {
 
         int rowEffect = habitRepository.deleteHabitById(habitId);
         return rowEffect > 0;
+    }
+
+    @Override
+    public void completeHabit(Integer userId) {
+
     }
 }

@@ -18,4 +18,6 @@ public interface HabitService {
 
     boolean deleteHabit(Integer habitId);
 
+    void completeHabit(Integer userId);
+
 }
