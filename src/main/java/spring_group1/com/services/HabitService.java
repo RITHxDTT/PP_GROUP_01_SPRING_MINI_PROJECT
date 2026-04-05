@@ -16,6 +16,6 @@ public interface HabitService {
 
     Habit updateHabit(Integer habitId, HabitRequest habitRequest);
 
-    boolean deleteHabit(Integer habitId);
+    void deleteHabit(Integer habitId);
 
 }

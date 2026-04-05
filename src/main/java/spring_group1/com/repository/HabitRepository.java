@@ -53,7 +53,7 @@ public interface HabitRepository {
     DELETE FROM habits
     WHERE habit_id = #{habitId}
     """)
-    int deleteHabitById(Integer habitId);
+    void deleteHabitById(Integer habitId);
 
     @ResultMap("habitMapper")
     @Select("""

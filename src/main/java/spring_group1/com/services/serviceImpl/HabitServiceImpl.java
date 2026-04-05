@@ -1,9 +1,11 @@
 package spring_group1.com.services.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import spring_group1.com.exception.DuplicateName;
 import spring_group1.com.exception.NotFoundExceptionHandler;
+import spring_group1.com.model.AppUser;
 import spring_group1.com.model.Habit;
 import spring_group1.com.model.request.HabitRequest;
 import spring_group1.com.repository.HabitRepository;
@@ -51,22 +53,20 @@ public class HabitServiceImpl implements HabitService {
         }
         List<Habit> habits = habitRepository.getAllHabit();
 
-        for(Habit hab : habits){
-            if(habitRequest.getTitle() != null){
-                throw new DuplicateName("This habit already has!");
-            }
-        }
+
+
+
         return habitRepository.updateNewHabit(habitId, habitRequest);
     }
 
     @Override
-    public boolean deleteHabit(Integer habitId) {
+    public void deleteHabit(Integer habitId) {
 
         if (habitRepository.findHabitById(habitId) == null) {
             throw new NotFoundExceptionHandler("Not found Habit ID "+ habitId);
         }
 
-        int rowEffect = habitRepository.deleteHabitById(habitId);
-        return rowEffect > 0;
+        habitRepository.deleteHabitById(habitId);
+
     }
 }
