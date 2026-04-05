@@ -55,7 +55,7 @@ public class AuthController {
         ApiResponse apiResponse = ApiResponse.builder()
                 .success(true)
                 .title("Login Success")
-                .message("login successful")
+                .message("login successful. Authentication token generated!")
                 .status(HttpStatus.OK)
                 .timestamp(LocalDate.now())
                 .payload(authResponse)
